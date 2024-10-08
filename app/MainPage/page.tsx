@@ -30,7 +30,7 @@ const MainPage = () => {
         Get attention for your work, increase your visibility on the web and start making money.
         </Typography>
         {/* Movement button */}
-        <Button color="primary" variant="contained" sx={{ backgroundColor: '#fff',color:'#000',
+        <Button  color="primary" variant="contained" sx={{ backgroundColor: '#fff',color:'#000',
              padding: '10px 20px',borderRadius: '50px', fontWeight: 'bold', fontSize: '16px', '&:hover': {
             backgroundColor: '#2979ff', 
             } }}>
