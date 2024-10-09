@@ -1,9 +1,9 @@
-import EditorPage from "./pages/EditorPage";
+import EditPage from "./pages/EditPage";
 import './globals.css';
 export default function Home() {
   return (
     <>
-      <EditorPage />
+      <EditPage />
     </>
   );
 }
