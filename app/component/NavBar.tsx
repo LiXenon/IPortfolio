@@ -38,7 +38,7 @@ const Navbar = () => {
         <Box sx={{ display: 'flex', gap: '20px', marginLeft: 'auto'  }}>
           <Button color="inherit">PRODUCT</Button>
           <Button color="inherit">TEMPLATE</Button>
-          <Button color="inherit">IPortfolio Studio</Button>
+          <Button href='/EditPage' color="inherit">IPortfolio Studio</Button>
         </Box>
         <Button  href='/Login' color="primary" variant="contained" sx={{ backgroundColor: '#fff', 
           color:'#000', marginLeft: '20px', borderRadius: '50px' }}>
