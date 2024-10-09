@@ -1,4 +1,5 @@
 import MainPage from './MainPage/page';
+import './globals.css';
 const Home = () => {
     return (
         <>

@@ -9,17 +9,31 @@
     "lint": "next lint"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@fortawesome/fontawesome-free": "^6.6.0",
     "@mui/material": "^6.1.1",
     "antd": "^5.21.1",
     "iportfolio": "file:",
+=======
+    "@emotion/css": "^11.13.0",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^6.1.1",
+    "@mui/material": "^6.1.1",
+    "is-hotkey": "^0.2.0",
+>>>>>>> editPage
     "next": "14.2.13",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-draggable": "^4.4.6",
+    "slate": "^0.103.0",
+    "slate-history": "^0.109.0",
+    "slate-react": "^0.110.1"
   },
   "devDependencies": {
+    "@types/is-hotkey": "^0.1.10",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
