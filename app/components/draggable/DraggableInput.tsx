@@ -29,15 +29,23 @@ const DraggableInput: React.FC<draggableProps> = ({
       }}
     >
       <TextField
-        disabled={!editing}
         value={currentValue}
         multiline
         placeholder="Input some text"
         onClick={() => {setFocusedElementId(id)}}
         onChange={(e) => {
+          // If it is displaying but not editing, make it read only
+          if (!editing) return;
+
           const v = e.target.value;
           setValue(v, id);
           setCurrentValue(v);
+        }}
+        onFocus={(e) => {
+          // If it is displaying but not editing, make it read only
+          if (!editing) {
+            e.target.blur();
+          }
         }}
         slotProps={{ htmlInput: { style: style } }}
         sx={{

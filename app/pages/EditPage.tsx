@@ -14,7 +14,6 @@ const EditPage = () => {
     { id: 2, type: "img", x: 0, y: 0, src: "https://i.pinimg.com/474x/d2/4b/be/d24bbe79387549086d159aa4462bf4c9.jpg", style: { width: "200px", height: "200px" } }
   ]);
   const [focusedElementId, setFocusedElementId] = useState<number>();
-  console.log(currentPage);
 
   return (
     <div className="h-screen w-screen flex justify-center items-center">
