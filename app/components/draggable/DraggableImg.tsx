@@ -1,31 +1,36 @@
 "use client"
 import React from 'react';
 import Draggable from 'react-draggable';
-import { ImgProps } from "next/dist/shared/lib/get-img-props";
-interface DraggableImgProps {
-  x?: number,
-  y?: number,
-  imgProps: ImgProps
-}
+import { draggableProps } from '../interface/Draggable.d';
 
-const DraggableImg: React.FC<DraggableImgProps> = ({
+const DraggableImg: React.FC<draggableProps> = ({
+  id,
   x,
   y,
-  imgProps,
-  ...props
+  style,
+  src,
+  setFocusedElementId,
+  handlePositionChange,
 }) => {
   return (
     <Draggable
       axis="both" // Restrict dragging to both axes (default)
       bounds="parent" // Prevent dragging outside of parent container
-      defaultPosition={{ x: x || 350, y: y || 225 }} // Set initial position
-      grid={[25, 25]} // Snap to 25px increments
+      position={{ x: x || 0, y: y || 0 }}
+      // grid={[25, 25]} // Snap to 25px increments
+      onStop={(event, data) => {
+        handlePositionChange(data.lastX, data.lastY, id)
+      }}
     >
-      <div className='inline-block border-2 border-none click:border-dash'>
-        <img src="https://i.pinimg.com/474x/d2/4b/be/d24bbe79387549086d159aa4462bf4c9.jpg"
-            style={{width: "100px", height: "100px"}}
-            {...imgProps || {}}/>
-      </div>
+      <img src={src || 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg'}
+        style={{ width: '200px', height: '200px', ...style }}
+        onClick={() => {
+          setFocusedElementId(id);
+        }}
+        onError={(e) => {
+          e.target.src = 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg';
+        }}
+      />
     </Draggable>
   );
 };
