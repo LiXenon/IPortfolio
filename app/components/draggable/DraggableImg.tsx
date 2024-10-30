@@ -23,6 +23,7 @@ const DraggableImg: React.FC<draggableProps> = ({
       }}
     >
       <img src={src || 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg'}
+        className='absolute left-0 top-0'
         style={{ width: '200px', height: '200px', ...style }}
         onClick={() => {
           setFocusedElementId(id);

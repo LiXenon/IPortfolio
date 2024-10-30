@@ -31,6 +31,7 @@ const DraggableButton: React.FC<draggableProps> = ({
       }}
     >
       <Button
+        className='absolute left-0 top-0'
         color={color}
         variant={variant}
         size={size}

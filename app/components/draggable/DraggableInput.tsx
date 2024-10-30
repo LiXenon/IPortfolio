@@ -29,6 +29,7 @@ const DraggableInput: React.FC<draggableProps> = ({
       }}
     >
       <TextField
+        className='absolute left-0 top-0'
         value={currentValue}
         multiline
         placeholder="Input some text"
