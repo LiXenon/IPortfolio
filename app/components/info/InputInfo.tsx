@@ -5,7 +5,6 @@ import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
 import { InfoProps } from "../interface/Info";
-import { useContext } from "react";
 type horizontalDirectionType = "left" | "center" | "right";
 
 const InputInfo: React.FC<InfoProps> = ({ id, currentPage, setCurrentPage }) => {

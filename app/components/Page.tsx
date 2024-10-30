@@ -2,6 +2,7 @@
 import React from "react";
 import DraggableInput from "./draggable/DraggableInput";
 import DraggableImg from "./draggable/DraggableImg";
+import DraggableButton from "./draggable/DraggableButton";
 import { DraggableProvider } from "../context/DraggableProvider"
 interface PageProps {
     config: any,
@@ -13,7 +14,8 @@ const Page: React.FC<PageProps> = ({ config, setCurrentPage, setFocusedElementId
   const currentPage = config || [];
   const typeToElementMap: object = {
     input: DraggableInput,
-    img: DraggableImg
+    img: DraggableImg,
+    button: DraggableButton
   }
   const handlePositionChange = (x: number, y: number, id: number) => {
     currentPage?.forEach?.((ele: any) => {
@@ -43,6 +45,9 @@ const Page: React.FC<PageProps> = ({ config, setCurrentPage, setFocusedElementId
             key={ele?.id}
             id={ele?.id}
             value={ele?.value}
+            color={ele?.color}
+            size={ele?.size}
+            variant={ele?.variant}
             setValue={(v: string, id: number) => {handleValueChange?.(v, id)}}
             x={ele?.x}
             y={ele?.y}

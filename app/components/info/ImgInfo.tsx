@@ -33,11 +33,19 @@ const ImgInfo: React.FC<InfoProps> = ({ id, currentPage, setCurrentPage }) => {
       if (ele?.id == id) {
         setX(ele?.x || 0);
         setY(ele?.y || 0);
+      }})
+  }, [currentPage]);
+
+  useEffect(() => {
+    currentPage?.forEach?.((ele: any) => {
+      if (ele?.id == id) {
+        setX(ele?.x || 0);
+        setY(ele?.y || 0);
         setSrc(ele?.src || '');
         setWidth(parseFloat(ele?.style?.width) || 200);
         setHeight(parseFloat(ele?.style?.height) || 200);
       }})
-  }, [currentPage, id]);
+  }, [id]);
 
   return (
     <List sx={{ height: "500px", overflow: "auto" }}>

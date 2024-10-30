@@ -43,11 +43,11 @@ const CreateMenu: React.FC<CreateMenuProps> = ({ currentPage, setCurrentPage, se
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={() => {createElement("button")}}>
             <ListItemIcon>
               <ImageIcon />
             </ListItemIcon>
-            <ListItemText primary="Others" />
+            <ListItemText primary="Button" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>

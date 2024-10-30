@@ -7,7 +7,10 @@ export interface draggableProps {
     y?: number,
     style?: object,
     src?: string,
+    color?: string,
     link?: string,
+    variant?: string,
+    size?: string,
     disabled?: boolean,
     setFocusedElementId?: (id: number) => void;
     handlePositionChange?: (x: number, y: number, id: number) => void;

@@ -3,6 +3,7 @@ import { Card, Typography } from "@mui/material";
 import InputInfo from "./info/InputInfo";
 import ImgInfo from "./info/ImgInfo";
 import { draggableProps } from "./interface/draggable.d";
+import ButtonInfo from "./info/ButtonInfo";
 interface InfoMenuProps {
     id: number,
     currentPage: draggableProps[],
@@ -16,6 +17,7 @@ const InfoMenu: React.FC<InfoMenuProps> = ({ id, currentPage, setCurrentPage }) 
   const typeToInfoMap = {
     input: InputInfo,
     img: ImgInfo,
+    button: ButtonInfo,
     "": EmptyInfoMenu,
   }
   const InfoElement = typeToInfoMap?.[currentType];
