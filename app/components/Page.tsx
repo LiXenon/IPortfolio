@@ -1,9 +1,11 @@
 "use client"
 import React from "react";
+import { DraggableProvider } from "../context/DraggableProvider"
 import DraggableInput from "./draggable/DraggableInput";
 import DraggableImg from "./draggable/DraggableImg";
 import DraggableButton from "./draggable/DraggableButton";
-import { DraggableProvider } from "../context/DraggableProvider"
+import DraggableIcon from "./draggable/DraggableIcon";
+import DraggableMasonry from "./draggable/DraggableMasonry";
 interface PageProps {
     config: any,
     setCurrentPage: (value: any) => void;
@@ -15,7 +17,9 @@ const Page: React.FC<PageProps> = ({ config, setCurrentPage, setFocusedElementId
   const typeToElementMap: object = {
     input: DraggableInput,
     img: DraggableImg,
-    button: DraggableButton
+    button: DraggableButton,
+    icon: DraggableIcon,
+    masonry: DraggableMasonry
   }
   const handlePositionChange = (x: number, y: number, id: number) => {
     currentPage?.forEach?.((ele: any) => {
@@ -47,6 +51,9 @@ const Page: React.FC<PageProps> = ({ config, setCurrentPage, setFocusedElementId
             value={ele?.value}
             color={ele?.color}
             size={ele?.size}
+            srcList={ele?.srcList}
+            cols={ele?.cols}
+            gap={ele?.gap}
             variant={ele?.variant}
             setValue={(v: string, id: number) => {handleValueChange?.(v, id)}}
             x={ele?.x}

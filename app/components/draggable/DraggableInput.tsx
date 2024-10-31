@@ -39,7 +39,7 @@ const DraggableInput: React.FC<draggableProps> = ({
           if (!editing) return;
 
           const v = e.target.value;
-          setValue(v, id);
+          setValue(v);
           setCurrentValue(v);
         }}
         onFocus={(e) => {

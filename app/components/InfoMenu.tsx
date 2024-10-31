@@ -4,6 +4,9 @@ import InputInfo from "./info/InputInfo";
 import ImgInfo from "./info/ImgInfo";
 import { draggableProps } from "./interface/draggable.d";
 import ButtonInfo from "./info/ButtonInfo";
+import IconInfo from "./info/IconInfo";
+import MasonryInfo from "./info/MasonryInfo";
+
 interface InfoMenuProps {
     id: number,
     currentPage: draggableProps[],
@@ -18,6 +21,8 @@ const InfoMenu: React.FC<InfoMenuProps> = ({ id, currentPage, setCurrentPage }) 
     input: InputInfo,
     img: ImgInfo,
     button: ButtonInfo,
+    icon: IconInfo,
+    masonry: MasonryInfo,
     "": EmptyInfoMenu,
   }
   const InfoElement = typeToInfoMap?.[currentType];

@@ -2,7 +2,6 @@ import React from "react"
 import { Card, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import InputIcon from '@mui/icons-material/Input';
 import ImageIcon from '@mui/icons-material/Image';
-
 interface CreateMenuProps {
     currentPage: any,
     setCurrentPage: (value: any) => void;
@@ -51,19 +50,19 @@ const CreateMenu: React.FC<CreateMenuProps> = ({ currentPage, setCurrentPage, se
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={() => {createElement("icon")}}>
             <ListItemIcon>
               <ImageIcon />
             </ListItemIcon>
-            <ListItemText primary="Others" />
+            <ListItemText primary="Icon" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={() => {createElement("masonry")}}>
             <ListItemIcon>
               <ImageIcon />
             </ListItemIcon>
-            <ListItemText primary="Others" />
+            <ListItemText primary="Masonry" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
