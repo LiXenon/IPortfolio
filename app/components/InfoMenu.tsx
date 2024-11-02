@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from "react"
-import { Card, Typography } from "@mui/material";
+import { Card } from "@mui/material";
 import InputInfo from "./info/InputInfo";
 import ImgInfo from "./info/ImgInfo";
-import { draggableProps } from "./interface/draggable.d";
 import ButtonInfo from "./info/ButtonInfo";
 import IconInfo from "./info/IconInfo";
 import MasonryInfo from "./info/MasonryInfo";
+import PageInfo from "./info/PageInfo";
+import { InfoProps } from "./interface/Info";
 
-interface InfoMenuProps {
-    id: number,
-    currentPage: draggableProps[],
-    setCurrentPage: (value: draggableProps[]) => void;
-}
-const EmptyInfoMenu = () => {
-  return <></>;
-}
-const InfoMenu: React.FC<InfoMenuProps> = ({ id, currentPage, setCurrentPage }) => {
+const InfoMenu: React.FC<InfoProps> = ({
+  id,
+  currentPage,
+  setCurrentPage,
+}) => {
   const [currentType, setCurrentType] = useState<string>('');
   const typeToInfoMap = {
     input: InputInfo,
@@ -23,23 +20,27 @@ const InfoMenu: React.FC<InfoMenuProps> = ({ id, currentPage, setCurrentPage }) 
     button: ButtonInfo,
     icon: IconInfo,
     masonry: MasonryInfo,
-    "": EmptyInfoMenu,
+    "": PageInfo,
   }
   const InfoElement = typeToInfoMap?.[currentType];
 
   useEffect(() => {
+    let isFound = false;
     currentPage?.forEach?.((ele) => {
       if (ele?.id == id) {
         setCurrentType(ele.type || '');
+        isFound = true;
       }
     })
+    if (!isFound) setCurrentType('');
   }, [id])
   return (
-    <Card sx={{ padding: '2px', width: '200px', height: '500px' }}>
-      <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
-        {currentType.length > 0 ? `${currentType} Info Menu` : "Select One Element" }
-      </Typography>
-      <InfoElement id={id} currentPage={currentPage} setCurrentPage={(v) => {setCurrentPage?.(v)}} />
+    <Card sx={{ padding: '2px', width: '250px', height: '500px' }}>
+      <InfoElement
+        id={id}
+        currentPage={currentPage}
+        setCurrentPage={(v) => {setCurrentPage?.(v)}}
+      />
     </Card>
   )
 }

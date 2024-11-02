@@ -44,6 +44,7 @@ const Page: React.FC<PageProps> = ({ config, setCurrentPage, setFocusedElementId
     <DraggableProvider>
       <>
         {currentPage?.map?.((ele: any) => {
+          if (ele.type == 'page') return;
           const Component = typeToElementMap?.[ele?.type];
           return <Component
             key={ele?.id}
