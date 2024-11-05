@@ -1,10 +1,11 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 export const DraggableContext = createContext();
 
 export const DraggableProvider = ({ children }) => {
   const editing = true;
-  return <DraggableContext.Provider value={{ editing }}>
+  const [currentFocusedElementId, setCurrentFocusedElementId] = useState(null);
+  return <DraggableContext.Provider value={{ editing, currentFocusedElementId, setCurrentFocusedElementId }}>
     {children}
   </DraggableContext.Provider>
 }

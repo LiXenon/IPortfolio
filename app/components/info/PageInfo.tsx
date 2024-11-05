@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { List, ListItem, ListItemText, InputAdornment, TextField } from "@mui/material";
+import { List, ListItem, InputAdornment, TextField } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { InfoProps } from "../interface/Info";
 import { TwitterPicker } from 'react-color';
@@ -18,12 +18,10 @@ const PageInfo: React.FC<InfoProps> = ({
   const handleClickOutside = () => {
     setShowColorPicker(false);
   };
-  console.log(currentWidth);
 
   const handleUpdateData = () => {
     currentPage?.forEach?.((ele: any) => {
       if (ele?.type == 'page') {
-        console.log(1, currentWidth);
         ele.style = {
           width: currentWidth,
           height: currentHeight,
@@ -31,12 +29,12 @@ const PageInfo: React.FC<InfoProps> = ({
         }
       }
     });
-    console.log(2, currentPage[0].style.width);
     // Deep copy
     setCurrentPage([...currentPage]);
   }
 
   useEffect(() => {
+    // Set color picker close
     document.body.addEventListener('click', () => handleClickOutside());
 
     currentPage?.forEach?.((ele) => {
@@ -61,53 +59,47 @@ const PageInfo: React.FC<InfoProps> = ({
     }
   }, [currentBackgroundColor])
   return (
-    <List sx={{ height: "500px", overflow: "auto" }}>
-      <ListItem>
-        <ListItemText className="pl-[15%]" primary="Position" />
-      </ListItem>
-      <ListItem className="px-[20%]">
-        <div className="w-full flex flex-col">
-          <div className="flex">
-            <TextField
-              size='small'
-              variant="standard"
-              label='Width'
-              slotProps={{
-                input: {
-                  endAdornment: <InputAdornment position="end">px</InputAdornment>,
-                },
-              }}
-              value={currentWidth}
-              onChange={(event) => {setCurrentWidth?.(parseInt(event.target.value))}}
-              onBlur={handleUpdateData}
-            />
-          </div>
-        </div>
-      </ListItem>
-      <ListItem className="px-[20%]">
-        <TextField
-          size='small'
-          variant="standard"
-          label='Height'
-          slotProps={{
-            input: {
-              endAdornment: <InputAdornment position="end">px</InputAdornment>,
-            },
-          }}
-          value={currentHeight}
-          onChange={(event) => {setCurrentHeight?.(parseInt(event.target.value))}}
-          onBlur={handleUpdateData}
-        />
-      </ListItem>
+    <List sx={{ height: "100%" }}>
       <Divider />
       <ListItem>
-        <ListItemText className="pl-[15%]" primary="Style" />
+        <span className="pl-[5%] mt-6 text-sm font-bold">Layout</span>
       </ListItem>
-      <ListItem className="px-[20%] flex">
-        <div
-          className="h-4 w-4 absolute left-6 bottom-4"
-          style={{ backgroundColor: `${currentBackgroundColor || '#ffffff'}` }}>
+      <ListItem>
+        <div className="flex">
+          <TextField
+            className="mr-[20%]"
+            size='small'
+            variant="standard"
+            label='Width'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={currentWidth}
+            onChange={(event) => {setCurrentWidth?.(parseInt(event.target.value || 1000))}}
+            onBlur={handleUpdateData}
+          />
+          <TextField
+            size='small'
+            variant="standard"
+            label='Height'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={currentHeight}
+            onChange={(event) => {setCurrentHeight?.(parseInt(event.target.value) || 2000)}}
+            onBlur={handleUpdateData}
+          />
         </div>
+      </ListItem>
+      <Divider className="mt-10" />
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Style</span>
+      </ListItem>
+      <ListItem className="flex">
         <div
           onClick={(event) => {
             setShowColorPicker?.(true);
@@ -115,24 +107,28 @@ const PageInfo: React.FC<InfoProps> = ({
           }}
         >
           <TextField
+            className="mr-[50%]"
             size='small'
             variant="standard"
             label='Color'
             value={currentBackgroundColor}
           />
-          <div className={`${showColorPicker ? "block" : "hidden"} absolute mt-4`}>
+          <div
+            className="h-4 w-4 absolute left-[35%] bottom-4"
+            style={{ backgroundColor: `${currentBackgroundColor || '#ffffff'}` }}>
+          </div>
+          <div className={`${showColorPicker ? "block" : "hidden"} absolute mt-4 z-10`}>
             <TwitterPicker
+              colors={['#FFFFFF', '#000000', '#FF6900', '#FCB900', '#7BDCB5', '#00D084', '#8ED1FC', '#0693E3', '#ABB8C3', '#EB144C', '#F78DA7', '#9900EF']}
               width='150px'
               color={currentBackgroundColor}
               onChange={(color) => {
                 setCurrentBackgroudColor?.(color.hex || '#ffffff')
               }}
-
             />
           </div>
         </div>
       </ListItem>
-123
     </List>
   )
 }

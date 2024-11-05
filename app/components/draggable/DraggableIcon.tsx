@@ -1,5 +1,4 @@
 "use client"
-import React from 'react';
 import Draggable from 'react-draggable';
 import { draggableProps } from '../interface/Draggable.d';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -21,7 +20,8 @@ const DraggableIcon: React.FC<draggableProps> = ({
   setFocusedElementId,
   handlePositionChange,
 }) => {
-  const { editing } = useContext(DraggableContext);
+  const { editing, currentFocusedElementId } = useContext(DraggableContext);
+  const focused: boolean = currentFocusedElementId == id && editing;
   const valueToIconMap = {
     facebook: FacebookIcon,
     instagram: InstagramIcon,
@@ -29,7 +29,9 @@ const DraggableIcon: React.FC<draggableProps> = ({
     gitHub: GitHubIcon,
     x: XIcon
   }
+
   const IconElement = valueToIconMap?.[value] || FacebookIcon;
+
   return (
     <Draggable
       axis="both" // Restrict dragging to both axes (default)
@@ -41,7 +43,7 @@ const DraggableIcon: React.FC<draggableProps> = ({
       }}
     >
       <IconElement
-        className='absolute left-0 top-0'
+        className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
         onClick={() => {
           setFocusedElementId(id);
           if (!editing && link) {

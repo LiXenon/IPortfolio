@@ -1,8 +1,9 @@
 "use client"
-import React from 'react';
+import React, { useContext } from 'react';
 import Draggable from 'react-draggable';
 import { draggableProps } from '../interface/Draggable.d';
 import { Box, ImageList, ImageListItem } from '@mui/material';
+import { DraggableContext } from '@/app/context/DraggableProvider';
 
 const DraggableMasonry: React.FC<draggableProps> = ({
   id,
@@ -15,6 +16,8 @@ const DraggableMasonry: React.FC<draggableProps> = ({
   setFocusedElementId,
   handlePositionChange,
 }) => {
+  const { editing, currentFocusedElementId } = useContext(DraggableContext);
+  const focused: boolean = currentFocusedElementId == id && editing;
   return (
     <Draggable
       axis="both" // Restrict dragging to both axes (default)
@@ -28,7 +31,7 @@ const DraggableMasonry: React.FC<draggableProps> = ({
       <Box onClick={() => {
         setFocusedElementId(id);
       }}
-      className='absolute left-0 top-0'
+      className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
       sx={{ width: 500, height: 450, overflowY: 'scroll', ...style }}>
         <ImageList variant="masonry" cols={cols || 3} gap={gap || 8}>
           {srcList?.map?.((src, index) => (

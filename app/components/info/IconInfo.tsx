@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { Input, List, ListItem, ListItemText, Select, MenuItem } from "@mui/material";
+import { Input, List, ListItem, ListItemText, Select, MenuItem, TextField, InputAdornment } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { InfoProps } from "../interface/Info";
+import { TwitterPicker } from "react-color";
 
 type IconType =
     "facebook"
@@ -19,6 +20,7 @@ const IconInfo: React.FC<InfoProps> = ({ id, currentPage, setCurrentPage }) => {
   const [color, setColor] = useState<string>('black');
   const [size, setSize] = useState<number>(24);
   const [link, setLink] = useState<string>('');
+  const [showColorPicker, setShowColorPicker] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
 
   const handleUpdateData = () => {
@@ -37,6 +39,11 @@ const IconInfo: React.FC<InfoProps> = ({ id, currentPage, setCurrentPage }) => {
     setCurrentPage([...currentPage]);
   }
 
+  // If click outside, close color picker
+  const handleClickOutside = () => {
+    setShowColorPicker(false);
+  };
+
   useEffect(() => {
     currentPage?.forEach?.((ele: any) => {
       if (ele?.id == id) {
@@ -50,6 +57,13 @@ const IconInfo: React.FC<InfoProps> = ({ id, currentPage, setCurrentPage }) => {
     });
     // Deep copy
     setCurrentPage([...currentPage]);
+
+    // Set color picker close
+    document.body.addEventListener('click', () => handleClickOutside());
+
+    return () => {
+      document.body.removeEventListener('click', () => handleClickOutside());
+    }
   }, []);
 
   useEffect(() => {
@@ -79,95 +93,130 @@ const IconInfo: React.FC<InfoProps> = ({ id, currentPage, setCurrentPage }) => {
     } else {
       setMounted(true);
     }
-  }, [value])
+  }, [value, color])
 
   return (
-    <List sx={{ height: "500px", overflow: "auto" }}>
-      <ListItem disablePadding>
-        <ListItemText primary={eleType} />
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemText primary="Position" />
-      </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-            x <Input
-              sx={{ width: '50px' }}
-              value={x}
-              onChange={(event) => {setX?.(parseInt(event.target.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-            y <Input
-              sx={{ width: '50px' }}
-              value={y}
-              onChange={(event) => {setY?.(parseInt(event.target.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-          </div>
-        </div>
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemText primary="Value" />
-      </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-            Icon Type <Select
-              value={value}
-              label="IconType"
-              onChange={(e) => {setValue(e.target.value)}}
-            >
-              <MenuItem value={'facebook'}>Facebook</MenuItem>
-              <MenuItem value={'instagram'}>Instagram</MenuItem>
-              <MenuItem value={'linkedin'}>Linkedin</MenuItem>
-              <MenuItem value={'gitHub'}>GitHub</MenuItem>
-              <MenuItem value={'x'}>X</MenuItem>
-            </Select>
-          </div>
-        </div>
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemText primary="Style" />
-      </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-            color <Input
-              sx={{ width: '50px' }}
-              value={color}
-              onChange={(event) => {setColor?.(event.target.value || 'black') }}
-              onBlur={handleUpdateData}
-            />
-          </div>
-        </div>
-      </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-          size <Input
-              sx={{ width: '50px' }}
-              value={size}
-              onChange={(event) => {setSize?.(parseInt(event.target.value) || 24) }}
-              onBlur={handleUpdateData}
-            />
-          </div>
-        </div>
-      </ListItem>
+    <List sx={{ height: "100%" }}>
       <Divider />
-      <ListItem disablePadding>
-        <ListItemText primary="link" />
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Position</span>
       </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-            link <Input
-              sx={{ width: '20px' }}
-              value={link}
-              onChange={(event) => {setLink?.(event.target.value || '')}}
-              onBlur={handleUpdateData}
+      <ListItem>
+        <div className="flex">
+          <TextField
+            className="mr-[20%]"
+            size='small'
+            variant="standard"
+            label='X'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={x}
+            onChange={(event) => {setX?.(parseInt(event.target.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
+          <TextField
+            size='small'
+            variant="standard"
+            label='Y'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={y}
+            onChange={(event) => {setY?.(parseInt(event.target.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
+        </div>
+      </ListItem>
+      <Divider className="mt-10" />
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Value</span>
+      </ListItem>
+      <ListItem>
+        <div className="flex flex-col justify-between h-14">
+          <div style={{ color: 'rgba(0, 0, 0, 0.6)', fontSize: '12px' }}>Icon Type</div>
+          <Select
+            value={value}
+            label="IconType"
+            size="small"
+            onChange={(e) => {setValue(e.target.value)}}
+          >
+            <MenuItem value={'facebook'}>Facebook</MenuItem>
+            <MenuItem value={'instagram'}>Instagram</MenuItem>
+            <MenuItem value={'linkedin'}>Linkedin</MenuItem>
+            <MenuItem value={'gitHub'}>GitHub</MenuItem>
+            <MenuItem value={'x'}>X</MenuItem>
+          </Select>
+        </div>
+      </ListItem>
+      <Divider className="mt-10" />
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Style</span>
+      </ListItem>
+      <ListItem>
+        <div className="flex justify-around">
+          <div
+            className="mr-[20%]"
+            onClick={(event) => {
+              setShowColorPicker?.(true);
+              event.stopPropagation();
+            }}
+          >
+            <TextField
+              size='small'
+              variant="standard"
+              label='Color'
+              value={color}
             />
+            <div
+              className="h-4 w-4 absolute left-[35%] bottom-4"
+              style={{ backgroundColor: `${color || '#ffffff'}` }}>
+            </div>
+            <div className={`${showColorPicker ? "block" : "hidden"} absolute mt-4 z-10`}>
+              <TwitterPicker
+                colors={['#FFFFFF', '#000000', '#FF6900', '#FCB900', '#7BDCB5', '#00D084', '#8ED1FC', '#0693E3', '#ABB8C3', '#EB144C', '#F78DA7', '#9900EF']}
+                width='150px'
+                color={color}
+                onChange={(color) => {
+                  setColor?.(color.hex || '#ffffff')
+                }}
+              />
+            </div>
           </div>
+          <TextField
+            size='small'
+            variant="standard"
+            label='Size'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={size}
+            onChange={(event) => {setSize?.(parseInt(event.target.value) || 24) }}
+            onBlur={handleUpdateData}
+          />
+        </div>
+      </ListItem>
+      <Divider className="mt-10" />
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Link</span>
+      </ListItem>
+      <ListItem>
+        <div className="flex w-full">
+          <TextField
+            size='small'
+            variant="standard"
+            label='Link'
+            sx={{ width: '100%' }}
+            value={link}
+            onChange={(event) => {setLink?.(event.target.value || '')}}
+            onBlur={handleUpdateData}
+          />
         </div>
       </ListItem>
     </List>

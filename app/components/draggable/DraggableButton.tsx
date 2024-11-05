@@ -18,8 +18,8 @@ const DraggableButton: React.FC<draggableProps> = ({
   setFocusedElementId,
   handlePositionChange,
 }) => {
-  const { editing } = useContext(DraggableContext);
-
+  const { editing, currentFocusedElementId } = useContext(DraggableContext);
+  const focused: boolean = currentFocusedElementId == id && editing;
   return (
     <Draggable
       axis="both" // Restrict dragging to both axes (default)
@@ -31,7 +31,7 @@ const DraggableButton: React.FC<draggableProps> = ({
       }}
     >
       <Button
-        className='absolute left-0 top-0'
+        className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
         color={color}
         variant={variant}
         size={size}

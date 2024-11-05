@@ -1,11 +1,11 @@
 "use client"
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Page from "../components/Page";
 import CreateMenu from "../components/CreateMenu";
 import InfoMenu from "../components/InfoMenu";
-import { Button } from "@mui/material";
 import { draggableProps } from "../components/interface/draggable.d";
 import ConfirmDialog from "../components/ConfirmDialog";
+import { DraggableContext } from "../context/DraggableProvider";
 
 const EditPage = () => {
   const [currentPage, setCurrentPage] = useState<draggableProps[]>([
@@ -32,13 +32,29 @@ const EditPage = () => {
   const [focusedElementId, setFocusedElementId] = useState<number>();
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleteAllOpen, setDeleteAllOpen] = useState(false);
+  const { setCurrentFocusedElementId } = useContext(DraggableContext);
   console.log(currentPage);
+
+  const deleteElement = () => {
+    if (!focusedElementId) {
+      return;
+    };
+    setDeleteOpen(true);
+  }
+
+  const deleteAllElements = () => {
+    setDeleteAllOpen(true);
+  }
 
   const pageStyle = currentPage?.map?.((ele) => {
     if (ele?.type == 'page') return ele.style;
   })[0];
 
+  useEffect(() => {
+    setCurrentFocusedElementId(focusedElementId);
+  }, [focusedElementId])
   return (
+
     <div className="h-screen w-screen flex justify-center">
       <div className="fixed left-2 top-1/2 transform -translate-y-1/2 z-10">
         <CreateMenu
@@ -52,6 +68,8 @@ const EditPage = () => {
         <InfoMenu id={focusedElementId}
           currentPage={currentPage}
           setCurrentPage={(v) => {setCurrentPage?.(v)}}
+          deleteElement={deleteElement}
+          deleteAllElements={deleteAllElements}
         />
       </div>
 
@@ -60,7 +78,7 @@ const EditPage = () => {
           height: `${pageStyle?.height || 2000}px`,
           backgroundColor: pageStyle?.backgroundColor || '#ffffff' }}
         onClick={(event) => {
-        // Click the empty page to edit page(default info menu)
+          // Click the empty page to edit page(default info menu)
 
           // Prevent from event capture phase which may capture child elements' event
           if (event.target == event.currentTarget) {
@@ -73,22 +91,6 @@ const EditPage = () => {
           setFocusedElementId={(id: number) => setFocusedElementId(id)}/>
       </div>
 
-      <div className="fixed bottom-24 right-16 flex justify-center">
-        <Button>Save</Button>
-      </div>
-      <div className="fixed bottom-16 right-16 flex justify-center">
-        <Button color="error" onClick={() => {
-          if (!focusedElementId) {
-            return;
-          };
-          setDeleteOpen(true);
-        }}>Delete</Button>
-      </div>
-      <div className="fixed bottom-8 right-16 flex justify-center">
-        <Button onClick={() => {
-          setDeleteAllOpen(true);
-        }} color="error">Delete All</Button>
-      </div>
       <ConfirmDialog open={deleteOpen}
         setOpen={(v) => {
           setDeleteOpen(v);
@@ -115,10 +117,14 @@ const EditPage = () => {
           setDeleteAllOpen(v);
         }}
         handleAction={() => {
-          setCurrentPage([]);
+          const _currentPage = currentPage?.filter?.((ele) => {
+            if (ele?.type == 'page') return ele;
+          })
+
+          setCurrentPage([..._currentPage]);
           setFocusedElementId?.(undefined);
         }}
-        title="Are you sure to delete the whole page?"
+        title="Are you sure to clear the whole page?"
         type="Delete"
       />
     </div>

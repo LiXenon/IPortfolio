@@ -1,9 +1,13 @@
+"use client"
 import EditPage from "./pages/EditPage";
 import './globals.css';
-export default function Home() {
+import { DraggableProvider } from "./context/DraggableProvider";
+export default function Home () {
   return (
     <>
-      <EditPage />
+      <DraggableProvider>
+        <EditPage />
+      </DraggableProvider>
     </>
   );
 }

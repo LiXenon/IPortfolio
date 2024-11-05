@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react"
-import { Input, List, ListItem, ListItemText, Switch } from "@mui/material";
+import { Input, InputAdornment, List, ListItem, ListItemText, Switch, TextField } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
 import { InfoProps } from "../interface/Info";
+import { TwitterPicker } from "react-color";
 type horizontalDirectionType = "left" | "center" | "right";
 
 const InputInfo: React.FC<InfoProps> = ({ id, currentPage, setCurrentPage }) => {
@@ -19,6 +20,7 @@ const InputInfo: React.FC<InfoProps> = ({ id, currentPage, setCurrentPage }) => 
   const [fontWeight, setFontWeight] = useState<number>(0);
   const [underline, setUnderline] = useState<boolean>(false);
   const [fontHorizontalDirection, setFontHorizontalDirection] = useState<horizontalDirectionType>("left");
+  const [showColorPicker, setShowColorPicker] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
   const handleUpdateData = () => {
     currentPage?.forEach?.((ele: any) => {
@@ -39,6 +41,11 @@ const InputInfo: React.FC<InfoProps> = ({ id, currentPage, setCurrentPage }) => 
     // Deep copy
     setCurrentPage([...currentPage]);
   }
+
+  // If click outside, close color picker
+  const handleClickOutside = () => {
+    setShowColorPicker(false);
+  };
 
   useEffect(() => {
     currentPage?.forEach?.((ele: any) => {
@@ -64,99 +71,176 @@ const InputInfo: React.FC<InfoProps> = ({ id, currentPage, setCurrentPage }) => 
   }, [currentPage]);
 
   useEffect(() => {
+    // Set color picker close
+    document.body.addEventListener('click', () => handleClickOutside());
+
+    return () => {
+      document.body.removeEventListener('click', () => handleClickOutside());
+    }
+  }, [])
+
+  useEffect(() => {
     // Prevent from first mount of state change the real data with state's initial data
     if (mounted) {
       handleUpdateData();
     } else {
       setMounted(true);
     }
-  }, [underline, fontHorizontalDirection])
+  }, [underline, fontHorizontalDirection, color])
 
   return (
-    <List sx={{ height: "500px", overflow: "auto" }}>
-      <ListItem disablePadding>
-        <ListItemText primary={eleType} />
+    <List sx={{ height: "100%" }}>
+      <Divider />
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Position</span>
       </ListItem>
-      <ListItem disablePadding>
-        <ListItemText primary="Position" />
+      <ListItem>
+        <div className="flex">
+          <TextField
+            className="mr-[20%]"
+            size='small'
+            variant="standard"
+            label='X'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={x}
+            onChange={(event) => {setX?.(parseInt(event.target.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
+          <TextField
+            size='small'
+            variant="standard"
+            label='Y'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={y}
+            onChange={(event) => {setY?.(parseInt(event.target.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
+        </div>
       </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-            x <Input
-              sx={{ width: '50px' }}
-              value={x}
-              onChange={(event) => {setX?.(parseInt(event.target.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-            y <Input
-              sx={{ width: '50px' }}
-              value={y}
-              onChange={(event) => {setY?.(parseInt(event.target.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
+      <Divider className="mt-10" />
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Layout</span>
+      </ListItem>
+      <ListItem>
+        <div className="flex">
+          <TextField
+            className="mr-[20%]"
+            size='small'
+            variant="standard"
+            label='Width'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={width}
+            onChange={(event) => {setWidth?.(parseInt(event.target.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
+          <TextField
+            size='small'
+            variant="standard"
+            label='Height'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={height}
+            onChange={(event) => {setHeight?.(parseInt(event.target.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
+        </div>
+      </ListItem>
+      <Divider className="mt-10" />
+      <ListItem >
+        <span className="pl-[5%] mt-6 text-sm font-bold">Typography</span>
+      </ListItem>
+      <ListItem className="flex justify-center">
+        <div
+          className="mr-[20%]"
+          onClick={(event) => {
+            setShowColorPicker?.(true);
+            event.stopPropagation();
+          }}
+        >
+          <TextField
+            size='small'
+            variant="standard"
+            label='Font Color'
+            value={color}
+          />
+          <div
+            className="h-4 w-4 absolute left-[35%] bottom-4"
+            style={{ backgroundColor: `${color || '#ffffff'}` }}>
           </div>
-          <div className="flex justify-around">
-            width <Input
-              sx={{ width: '50px' }}
-              value={width}
-              onChange={(event) => {setWidth?.(parseInt(event.target.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-            height <Input
-              sx={{ width: '50px' }}
-              value={height}
-              onChange={(event) => {setHeight?.(parseInt(event.target.value) || 0)}}
-              onBlur={handleUpdateData}
+          <div className={`${showColorPicker ? "block" : "hidden"} absolute mt-4 z-10`}>
+            <TwitterPicker
+              colors={['#FFFFFF', '#000000', '#FF6900', '#FCB900', '#7BDCB5', '#00D084', '#8ED1FC', '#0693E3', '#ABB8C3', '#EB144C', '#F78DA7', '#9900EF']}
+              width='150px'
+              color={color}
+              onChange={(color) => {
+                setColor?.(color.hex || '#ffffff')
+              }}
             />
           </div>
         </div>
+        <TextField
+          size='small'
+          variant="standard"
+          label='Font Size'
+          slotProps={{
+            input: {
+              endAdornment: <InputAdornment position="end">px</InputAdornment>,
+            },
+          }}
+          value={fontSize}
+          onChange={(event) => {setFontSize?.(parseInt(event.target.value) || 0)}}
+          onBlur={handleUpdateData}
+        />
       </ListItem>
-      <Divider />
-      <ListItem disablePadding>
-        <ListItemText primary="Typography" />
+      <ListItem className="flex">
+        <TextField
+          className="mr-[60%]"
+          size='small'
+          variant="standard"
+          label='Font Weight'
+          value={fontWeight}
+          onChange={(event) => {setFontWeight?.(parseInt(event.target.value) || 0)}}
+          onBlur={handleUpdateData}
+        />
       </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-            font size <Input
-              sx={{ width: '20px' }}
-              value={fontSize}
-              onChange={(event) => {setFontSize?.(parseInt(event.target.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-            font color <Input
-              sx={{ width: '20px' }}
-              value={color}
-              onChange={(event) => {setColor?.(event.target.value || '')}}
-              onBlur={handleUpdateData}
-            />
-          </div>
-          <div className="flex justify-around">
-            font weight <Input
-              sx={{ width: '20px' }}
-              value={fontWeight}
-              onChange={(event) => {setFontWeight?.(parseInt(event.target.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-            underline <Switch
-              value={underline}
-              onChange={(event) => {
-                setUnderline?.(event.target.checked);
-              }}
-            />
-            horizontal direction
-            <div className="flex">
-              <FormatAlignLeftIcon
-                className={`${fontHorizontalDirection == 'left' ? "bg-slate-300" : "bg-white"}`}
-                onClick={() => setFontHorizontalDirection("left")}/>
-              <FormatAlignCenterIcon
-                className={`${fontHorizontalDirection == 'center' ? "bg-slate-300" : "bg-white"}`}
-                onClick={() => setFontHorizontalDirection("center")}/>
-              <FormatAlignRightIcon
-                className={`${fontHorizontalDirection == 'right' ? "bg-slate-300" : "bg-white"}`}
-                onClick={() => setFontHorizontalDirection("right")}/>
-            </div>
+      <ListItem className="flex justify-between">
+        <div className="flex flex-col justify-between h-14">
+          <div style={{ color: 'rgba(0, 0, 0, 0.6)', fontSize: '12px' }}>Underline</div>
+          <Switch
+            value={underline}
+            onChange={(event) => {
+              setUnderline?.(event.target.checked);
+            }}
+          />
+        </div>
+
+        <div className="flex flex-col justify-between items-center h-14">
+          <div style={{ color: 'rgba(0, 0, 0, 0.6)', fontSize: '12px' }}>Horizontal Direction</div>
+          <div className="flex">
+            <FormatAlignLeftIcon
+              className={`${fontHorizontalDirection == 'left' ? "bg-slate-300" : "bg-white"}`}
+              onClick={() => setFontHorizontalDirection("left")}/>
+            <FormatAlignCenterIcon
+              className={`${fontHorizontalDirection == 'center' ? "bg-slate-300" : "bg-white"}`}
+              onClick={() => setFontHorizontalDirection("center")}/>
+            <FormatAlignRightIcon
+              className={`${fontHorizontalDirection == 'right' ? "bg-slate-300" : "bg-white"}`}
+              onClick={() => setFontHorizontalDirection("right")}/>
           </div>
         </div>
       </ListItem>

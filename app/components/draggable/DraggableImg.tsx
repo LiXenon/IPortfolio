@@ -1,7 +1,8 @@
 "use client"
-import React from 'react';
+import React, { useContext } from 'react';
 import Draggable from 'react-draggable';
 import { draggableProps } from '../interface/Draggable.d';
+import { DraggableContext } from '@/app/context/DraggableProvider';
 
 const DraggableImg: React.FC<draggableProps> = ({
   id,
@@ -12,6 +13,8 @@ const DraggableImg: React.FC<draggableProps> = ({
   setFocusedElementId,
   handlePositionChange,
 }) => {
+  const { editing, currentFocusedElementId } = useContext(DraggableContext);
+  const focused: boolean = currentFocusedElementId == id && editing;
   return (
     <Draggable
       axis="both" // Restrict dragging to both axes (default)
@@ -23,7 +26,7 @@ const DraggableImg: React.FC<draggableProps> = ({
       }}
     >
       <img src={src || 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg'}
-        className='absolute left-0 top-0'
+        className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
         style={{ width: '200px', height: '200px', ...style }}
         onClick={() => {
           setFocusedElementId(id);

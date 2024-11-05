@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Input, List, ListItem, ListItemText, Select, MenuItem } from "@mui/material";
+import { Input, List, ListItem, ListItemText, Select, MenuItem, TextField, InputAdornment, InputLabel } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { InfoProps } from "../interface/Info";
 
@@ -100,111 +100,123 @@ const ButtonInfo: React.FC<InfoProps> = ({ id, currentPage, setCurrentPage }) =>
   }, [color, size, variant])
 
   return (
-    <List sx={{ height: "500px", overflow: "auto" }}>
-      <ListItem disablePadding>
-        <ListItemText primary={eleType} />
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemText primary="Position" />
-      </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-            x <Input
-              sx={{ width: '50px' }}
-              value={x}
-              onChange={(event) => {setX?.(parseInt(event.target.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-            y <Input
-              sx={{ width: '50px' }}
-              value={y}
-              onChange={(event) => {setY?.(parseInt(event.target.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-          </div>
-        </div>
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemText primary="Value" />
-      </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-            value <Input
-              sx={{ width: '50px' }}
-              value={value}
-              onChange={(event) => {setValue?.(event.target.value || '')}}
-              onBlur={handleUpdateData}
-            />
-          </div>
-        </div>
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemText primary="Style" />
-      </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-            color <Select
-              value={color}
-              label="color"
-              onChange={(e) => {setColor(e.target.value)}}
-            >
-              <MenuItem value={'primary'}>primary</MenuItem>
-              <MenuItem value={'secondary'}>secondary</MenuItem>
-              <MenuItem value={'success'}>success</MenuItem>
-              <MenuItem value={'error'}>error</MenuItem>
-              <MenuItem value={'info'}>info</MenuItem>
-              <MenuItem value={'warning'}>warning</MenuItem>
-            </Select>
-          </div>
-        </div>
-      </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-            size <Select
-              value={size}
-              label="size"
-              onChange={(e) => {setSize(e.target.value)}}
-            >
-              <MenuItem value={'small'}>small</MenuItem>
-              <MenuItem value={'medium'}>medium</MenuItem>
-              <MenuItem value={'large'}>large</MenuItem>
-            </Select>
-          </div>
-        </div>
-      </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-          variant <Select
-              value={variant}
-              label="variant"
-              onChange={(e) => {setVariant(e.target.value)}}
-            >
-              <MenuItem value={'contained'}>contained</MenuItem>
-              <MenuItem value={'outlined'}>outlined</MenuItem>
-              <MenuItem value={'text'}>text</MenuItem>
-            </Select>
-          </div>
-        </div>
-      </ListItem>
+    <List sx={{ height: "100%" }}>
       <Divider />
-      <ListItem disablePadding>
-        <ListItemText primary="link" />
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Position</span>
       </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-            link <Input
-              sx={{ width: '20px' }}
-              value={link}
-              onChange={(event) => {setLink?.(event.target.value || '')}}
-              onBlur={handleUpdateData}
-            />
-          </div>
+      <ListItem>
+        <div className="flex">
+          <TextField
+            className="mr-[20%]"
+            size='small'
+            variant="standard"
+            label='X'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={x}
+            onChange={(event) => {setX?.(parseInt(event.target.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
+          <TextField
+            size='small'
+            variant="standard"
+            label='Y'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={y}
+            onChange={(event) => {setY?.(parseInt(event.target.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
+        </div>
+      </ListItem>
+      <Divider className="mt-10" />
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Value</span>
+      </ListItem>
+      <ListItem>
+        <div className="flex w-full">
+          <TextField
+            size='small'
+            variant="standard"
+            sx={{ width: '100%' }}
+            label='Value'
+            value={value}
+            onChange={(event) => {setValue?.(event.target.value || '')}}
+            onBlur={handleUpdateData}
+          />
+        </div>
+      </ListItem>
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Style</span>
+      </ListItem>
+      <ListItem className="flex justify-between">
+        <div className="flex flex-col justify-between h-14">
+          <div style={{ color: 'rgba(0, 0, 0, 0.6)', fontSize: '12px' }}>Color</div>
+          <Select
+            value={color}
+            label="color"
+            size="small"
+            onChange={(e) => {setColor(e.target.value)}}
+          >
+            <MenuItem value={'primary'}>primary</MenuItem>
+            <MenuItem value={'secondary'}>secondary</MenuItem>
+            <MenuItem value={'success'}>success</MenuItem>
+            <MenuItem value={'error'}>error</MenuItem>
+            <MenuItem value={'info'}>info</MenuItem>
+            <MenuItem value={'warning'}>warning</MenuItem>
+          </Select>
+        </div>
+        <div className="flex flex-col justify-between h-14">
+          <div style={{ color: 'rgba(0, 0, 0, 0.6)', fontSize: '12px' }}>Size</div>
+          <Select
+            value={size}
+            label="size"
+            size="small"
+            onChange={(e) => {setSize(e.target.value)}}
+          >
+            <MenuItem value={'small'}>small</MenuItem>
+            <MenuItem value={'medium'}>medium</MenuItem>
+            <MenuItem value={'large'}>large</MenuItem>
+          </Select>
+        </div>
+      </ListItem>
+      <ListItem>
+        <div className="flex flex-col justify-between h-14">
+          <div style={{ color: 'rgba(0, 0, 0, 0.6)', fontSize: '12px' }}>Variant</div>
+          <Select
+            value={variant}
+            size="small"
+            label="variant"
+            onChange={(e) => {setVariant(e.target.value)}}
+          >
+            <MenuItem value={'contained'}>contained</MenuItem>
+            <MenuItem value={'outlined'}>outlined</MenuItem>
+            <MenuItem value={'text'}>text</MenuItem>
+          </Select>
+        </div>
+      </ListItem>
+      <Divider className="mt-10" />
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Link</span>
+      </ListItem>
+      <ListItem>
+        <div className="flex w-full">
+          <TextField
+            size='small'
+            variant="standard"
+            label='Link'
+            sx={{ width: '100%' }}
+            value={link}
+            onChange={(event) => {setLink?.(event.target.value || '')}}
+            onBlur={handleUpdateData}
+          />
         </div>
       </ListItem>
     </List>

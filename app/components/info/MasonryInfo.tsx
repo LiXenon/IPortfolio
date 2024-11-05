@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Input, List, ListItem, ListItemText, Select, MenuItem, Button } from "@mui/material";
+import { Input, List, ListItem, ListItemText, Select, MenuItem, Button, TextField, InputAdornment } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { InfoProps } from "../interface/Info";
 
@@ -78,102 +78,127 @@ const MasonryInfo: React.FC<InfoProps> = ({ id, currentPage, setCurrentPage }) =
   }, [srcList])
 
   return (
-    <List sx={{ height: "500px", overflow: "auto" }}>
-      <ListItem disablePadding>
-        <ListItemText primary={eleType} />
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemText primary="Position" />
-      </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-            x <Input
-              sx={{ width: '50px' }}
-              value={x}
-              onChange={(event) => {setX?.(parseInt(event.target.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-            y <Input
-              sx={{ width: '50px' }}
-              value={y}
-              onChange={(event) => {setY?.(parseInt(event.target.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-          </div>
-        </div>
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemText primary="Value" />
-      </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-            width<Input
-              sx={{ width: '50px' }}
-              value={width}
-              onChange={(event) => {setWidth?.(parseInt(event?.target?.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-          </div>
-        </div>
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemText primary="Style" />
-      </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-            height<Input
-              sx={{ width: '50px' }}
-              value={height}
-              onChange={(event) => {setHeight?.(parseInt(event?.target?.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-          </div>
-        </div>
-      </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-          cols<Input
-              sx={{ width: '50px' }}
-              value={cols}
-              onChange={(event) => {setCols?.(parseInt(event?.target?.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-            gap<Input
-              sx={{ width: '50px' }}
-              value={gap}
-              onChange={(event) => {setGap?.(parseInt(event?.target?.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-          </div>
-        </div>
-      </ListItem>
+    <List sx={{ height: "100%" }}>
       <Divider />
-      <ListItem disablePadding>
-        <ListItemText primary="Source" />
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Position</span>
       </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[150px] flex-col">
-          <div className="flex justify-around">
-            src list <Input
-              sx={{ width: '20px' }}
-              value={src}
-              onChange={(event) => {setSrc?.(event.target.value || '')}}
-            />
-          </div>
-          <Button onClick={() => {
-            setSrcList([...srcList, src]);
-          }}
-          >Add Image</Button>
-          <Button color="error" onClick={() => {
-            srcList?.pop?.();
-            setSrcList([...srcList]);
-          }}
-          >Delete Last One</Button>
+      <ListItem>
+        <div className="flex">
+          <TextField
+            className="mr-[20%]"
+            size='small'
+            variant="standard"
+            label='X'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={x}
+            onChange={(event) => {setX?.(parseInt(event.target.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
+          <TextField
+            size='small'
+            variant="standard"
+            label='Y'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={y}
+            onChange={(event) => {setY?.(parseInt(event.target.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
         </div>
+      </ListItem>
+      <Divider className="mt-10" />
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Layout</span>
+      </ListItem>
+      <ListItem>
+        <div className="flex">
+          <TextField
+            className="mr-[20%]"
+            size='small'
+            variant="standard"
+            label='Width'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={width}
+            onChange={(event) => {setWidth?.(parseInt(event?.target?.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
+          <TextField
+            size='small'
+            variant="standard"
+            label='Height'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={height}
+            onChange={(event) => {setHeight?.(parseInt(event?.target?.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
+        </div>
+      </ListItem>
+      <ListItem>
+        <div className="flex">
+          <TextField
+            className="mr-[25%]"
+            size='small'
+            variant="standard"
+            label='Columns'
+            value={cols}
+            onChange={(event) => {setCols?.(parseInt(event?.target?.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
+          <TextField
+            size='small'
+            variant="standard"
+            label='Gap'
+            value={gap}
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            onChange={(event) => {setGap?.(parseInt(event?.target?.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
+        </div>
+      </ListItem>
+      <Divider className="mt-10" />
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Source</span>
+      </ListItem>
+      <ListItem>
+        <div className="w-full flex">
+          <TextField
+            className="w-full"
+            variant="standard"
+            label='Src'
+            value={src}
+            onChange={(event) => {setSrc?.(event.target.value || '')}}
+          />
+        </div>
+        <Button onClick={() => {
+          setSrcList([...srcList, src]);
+        }}
+        >Add Image</Button>
+        <Button color="error" onClick={() => {
+          srcList?.pop?.();
+          setSrcList([...srcList]);
+        }}
+        >Delete Last One</Button>
+
       </ListItem>
     </List>
   )

@@ -15,7 +15,8 @@ const DraggableInput: React.FC<draggableProps> = ({
   setFocusedElementId,
   handlePositionChange,
 }) => {
-  const { editing } = useContext(DraggableContext);
+  const { editing, currentFocusedElementId } = useContext(DraggableContext);
+  const focused: boolean = currentFocusedElementId == id && editing;
   const [currentValue, setCurrentValue] = useState<string>(value || '');
 
   return (
@@ -29,7 +30,7 @@ const DraggableInput: React.FC<draggableProps> = ({
       }}
     >
       <TextField
-        className='absolute left-0 top-0'
+        className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
         value={currentValue}
         multiline
         placeholder="Input some text"

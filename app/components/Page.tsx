@@ -1,6 +1,5 @@
 "use client"
 import React from "react";
-import { DraggableProvider } from "../context/DraggableProvider"
 import DraggableInput from "./draggable/DraggableInput";
 import DraggableImg from "./draggable/DraggableImg";
 import DraggableButton from "./draggable/DraggableButton";
@@ -41,33 +40,32 @@ const Page: React.FC<PageProps> = ({ config, setCurrentPage, setFocusedElementId
   }
 
   return (
-    <DraggableProvider>
-      <>
-        {currentPage?.map?.((ele: any) => {
-          if (ele.type == 'page') return;
-          const Component = typeToElementMap?.[ele?.type];
-          return <Component
-            key={ele?.id}
-            id={ele?.id}
-            value={ele?.value}
-            color={ele?.color}
-            size={ele?.size}
-            srcList={ele?.srcList}
-            cols={ele?.cols}
-            gap={ele?.gap}
-            variant={ele?.variant}
-            setValue={(v: string, id: number) => {handleValueChange?.(v, id)}}
-            x={ele?.x}
-            y={ele?.y}
-            handlePositionChange={(x: number, y: number, id: number) => {handlePositionChange?.(x, y, id)}}
-            style={ele?.style}
-            src={ele?.src}
-            link={ele?.link}
-            setFocusedElementId={(id: number) => {setFocusedElementId(id)}}
-          />
-        })}
-      </>
-    </DraggableProvider>
+
+    <>
+      {currentPage?.map?.((ele: any) => {
+        if (ele?.type == 'page') return;
+        const Component = typeToElementMap?.[ele?.type];
+        return <Component
+          key={ele?.id}
+          id={ele?.id}
+          value={ele?.value}
+          color={ele?.color}
+          size={ele?.size}
+          srcList={ele?.srcList}
+          cols={ele?.cols}
+          gap={ele?.gap}
+          variant={ele?.variant}
+          setValue={(v: string, id: number) => {handleValueChange?.(v, id)}}
+          x={ele?.x}
+          y={ele?.y}
+          handlePositionChange={(x: number, y: number, id: number) => {handlePositionChange?.(x, y, id)}}
+          style={ele?.style}
+          src={ele?.src}
+          link={ele?.link}
+          setFocusedElementId={(id: number) => {setFocusedElementId(id)}}
+        />
+      })}
+    </>
   )
 }
 export default Page

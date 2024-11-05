@@ -1,7 +1,10 @@
 import React from "react"
-import { Card, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { Card, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import InputIcon from '@mui/icons-material/Input';
 import ImageIcon from '@mui/icons-material/Image';
+import TouchAppIcon from '@mui/icons-material/TouchApp';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import AppsIcon from '@mui/icons-material/Apps';
 interface CreateMenuProps {
     currentPage: any,
     setCurrentPage: (value: any) => void;
@@ -20,97 +23,60 @@ const CreateMenu: React.FC<CreateMenuProps> = ({ currentPage, setCurrentPage, se
     setCurrentPage?.(newPage);
   }
   return (
-    <Card sx={{ padding: '2px' }}>
-      <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
+    <Card
+      className="h-screen w-[300px] flex flex-col"
+      sx={{
+        padding: '10px',
+        boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)"
+      }}>
+      <div className="flex h-[50px] items-center">
+        <span className="pl-[5%] text-sm font-bold">
           Iportfolio Elements
-      </Typography>
-      <List sx={{ height: "500px", overflow: "auto" }}>
-        <ListItem disablePadding>
+        </span>
+      </div>
+      <Divider />
+      <List
+        className="flex-1"
+        sx={{ overflow: "auto" }}
+      >
+        <ListItem>
           <ListItemButton onClick={() => {createElement("input")}}>
             <ListItemIcon>
               <InputIcon />
             </ListItemIcon>
-            <ListItemText primary="Input" />
+            <ListItemText primary="Input" secondary="Create styled Text" />
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
+        <ListItem>
           <ListItemButton onClick={() => {createElement("img")}}>
             <ListItemIcon>
               <ImageIcon />
             </ListItemIcon>
-            <ListItemText primary="Img" />
+            <ListItemText primary="Img" secondary="Upload an Image or use an existing URL"/>
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
+        <ListItem>
           <ListItemButton onClick={() => {createElement("button")}}>
             <ListItemIcon>
-              <ImageIcon />
+              <TouchAppIcon />
             </ListItemIcon>
-            <ListItemText primary="Button" />
+            <ListItemText primary="Button" secondary="Create a Button with an external or internal link"/>
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
+        <ListItem>
           <ListItemButton onClick={() => {createElement("icon")}}>
             <ListItemIcon>
-              <ImageIcon />
+              <EmojiEmotionsIcon />
             </ListItemIcon>
-            <ListItemText primary="Icon" />
+            <ListItemText primary="Icon" secondary="Create an Icon with a link to your social media"/>
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
+        <ListItem>
           <ListItemButton onClick={() => {createElement("masonry")}}>
             <ListItemIcon>
-              <ImageIcon />
+              <AppsIcon />
             </ListItemIcon>
-            <ListItemText primary="Masonry" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <ImageIcon />
-            </ListItemIcon>
-            <ListItemText primary="Others" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <ImageIcon />
-            </ListItemIcon>
-            <ListItemText primary="Others" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <ImageIcon />
-            </ListItemIcon>
-            <ListItemText primary="Others" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <ImageIcon />
-            </ListItemIcon>
-            <ListItemText primary="Others" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <ImageIcon />
-            </ListItemIcon>
-            <ListItemText primary="Others" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <ImageIcon />
-            </ListItemIcon>
-            <ListItemText primary="Others" />
+            <ListItemText primary="Masonry" secondary="Create a Masonry to display Images"/>
           </ListItemButton>
         </ListItem>
       </List>

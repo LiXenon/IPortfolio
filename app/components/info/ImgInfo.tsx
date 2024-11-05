@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Input, List, ListItem, ListItemText } from "@mui/material";
+import { Input, InputAdornment, List, ListItem, ListItemText, TextField } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { InfoProps } from "../interface/Info";
 
@@ -48,59 +48,91 @@ const ImgInfo: React.FC<InfoProps> = ({ id, currentPage, setCurrentPage }) => {
   }, [id]);
 
   return (
-    <List sx={{ height: "500px", overflow: "auto" }}>
-      <ListItem disablePadding>
-        <ListItemText primary={eleType} />
+    <List sx={{ height: "100%" }}>
+      <Divider />
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Position</span>
       </ListItem>
-      <ListItem disablePadding>
-        <ListItemText primary="Position" />
-      </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-            x <Input
-              sx={{ width: '50px' }}
-              value={x}
-              onChange={(event) => {setX?.(parseInt(event.target.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-            y <Input
-              sx={{ width: '50px' }}
-              value={y}
-              onChange={(event) => {setY?.(parseInt(event.target.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-          </div>
-          <div className="flex justify-around">
-            width <Input
-              sx={{ width: '50px' }}
-              value={width}
-              onChange={(event) => {setWidth?.(parseInt(event.target.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-            height <Input
-              sx={{ width: '50px' }}
-              value={height}
-              onChange={(event) => {setHeight?.(parseInt(event.target.value) || 0)}}
-              onBlur={handleUpdateData}
-            />
-          </div>
+      <ListItem>
+        <div className="flex">
+          <TextField
+            className="mr-[20%]"
+            size='small'
+            variant="standard"
+            label='X'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={x}
+            onChange={(event) => {setX?.(parseInt(event.target.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
+          <TextField
+            size='small'
+            variant="standard"
+            label='Y'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={y}
+            onChange={(event) => {setY?.(parseInt(event.target.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
         </div>
       </ListItem>
-      <Divider />
-      <ListItem disablePadding>
-        <ListItemText primary="Source" />
+      <Divider className="mt-10" />
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Layout</span>
       </ListItem>
-      <ListItem disablePadding>
-        <div className="w-full flex h-[100px] flex-col">
-          <div className="flex justify-around">
-            src <Input
-              sx={{ width: '20px' }}
-              value={src}
-              onChange={(event) => {setSrc?.(event.target.value || '')}}
-              onBlur={handleUpdateData}
-            />
-          </div>
+      <ListItem>
+        <div className="flex">
+          <TextField
+            className="mr-[20%]"
+            size='small'
+            variant="standard"
+            label='Width'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={width}
+            onChange={(event) => {setWidth?.(parseInt(event.target.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
+          <TextField
+            size='small'
+            variant="standard"
+            label='Height'
+            slotProps={{
+              input: {
+                endAdornment: <InputAdornment position="end">px</InputAdornment>,
+              },
+            }}
+            value={height}
+            onChange={(event) => {setHeight?.(parseInt(event.target.value) || 0)}}
+            onBlur={handleUpdateData}
+          />
+        </div>
+      </ListItem>
+      <Divider className="mt-10" />
+      <ListItem>
+        <span className="pl-[5%] mt-6 text-sm font-bold">Source</span>
+      </ListItem>
+      <ListItem>
+        <div className="flex w-full">
+          <TextField
+            className="w-full"
+            variant="standard"
+            label='Src'
+            value={src}
+            onChange={(event) => {setSrc?.(event.target.value || '')}}
+            onBlur={handleUpdateData}
+          />
         </div>
       </ListItem>
     </List>
