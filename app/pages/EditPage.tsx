@@ -56,7 +56,7 @@ const EditPage = () => {
   return (
 
     <div className="h-screen w-screen flex justify-center">
-      <div className="fixed left-2 top-1/2 transform -translate-y-1/2 z-10">
+      <div className="fixed left-0 top-1/2 transform -translate-y-1/2 z-10">
         <CreateMenu
           currentPage={currentPage}
           setCurrentPage={(v) => {setCurrentPage?.(v)}}
@@ -64,7 +64,7 @@ const EditPage = () => {
         />
       </div>
 
-      <div className="fixed right-2 top-1/2 transform -translate-y-1/2 z-10">
+      <div className="fixed right-0 top-1/2 transform -translate-y-1/2 z-10">
         <InfoMenu id={focusedElementId}
           currentPage={currentPage}
           setCurrentPage={(v) => {setCurrentPage?.(v)}}
