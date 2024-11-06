@@ -12,13 +12,15 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 interface InfoMenuProps {
   deleteElement: () => void;
   deleteAllElements: () => void;
+  copyElement: () => void;
 }
 const InfoMenu: React.FC<InfoProps & InfoMenuProps> = ({
   id,
   currentPage,
   setCurrentPage,
   deleteElement,
-  deleteAllElements
+  deleteAllElements,
+  copyElement
 }) => {
   const [currentType, setCurrentType] = useState<string>('');
   const [expanded, setExpanded] = useState<boolean>(true);
@@ -74,16 +76,27 @@ const InfoMenu: React.FC<InfoProps & InfoMenuProps> = ({
           opacity: `${expanded ? '1' : '0'}`,
         }}
       >
-        <span className="pl-[5%] text-sm font-bold leading-[50px]">
+        <span className="pl-[5%] text-sm font-bold leading-[50px] flex-1">
           {currentType?.charAt(0)?.toUpperCase() + currentType?.slice(1) || 'Page'} Info Menu
         </span>
-        {currentType && <Button
-          color="warning"
-          variant="outlined"
-          size="small"
-          sx={{ height: "30px", fontSize: '12px' }}
-          onClick={() => {deleteElement?.()}}
-        >Delete</Button>}
+        {currentType &&
+        <>
+          <Button
+            color="success"
+            variant="outlined"
+            size="small"
+            sx={{ height: "30px", fontSize: '12px', marginRight: '3px' }}
+            onClick={() => {copyElement?.()}}
+          >Copy</Button>
+          <Button
+            color="warning"
+            variant="outlined"
+            size="small"
+            sx={{ height: "30px", fontSize: '12px' }}
+            onClick={() => {deleteElement?.()}}
+          >Delete</Button>
+        </>
+        }
       </div>
       <div
         className="flex-1 overflow-auto"

@@ -46,6 +46,18 @@ const EditPage = () => {
     setDeleteAllOpen(true);
   }
 
+  const copyElement = () => {
+    if (focusedElementId) {
+      currentPage?.forEach?.((ele) => {
+        if (ele?.id == focusedElementId && ele?.type != 'page') {
+          const newEle = { ...ele, id: Date.now(), x: 0, y: 0 };
+          currentPage.push(newEle);
+        }
+      })
+    }
+    setCurrentPage([...currentPage]);
+  }
+
   const pageStyle = currentPage?.map?.((ele) => {
     if (ele?.type == 'page') return ele.style;
   })[0];
@@ -70,6 +82,7 @@ const EditPage = () => {
           setCurrentPage={(v) => {setCurrentPage?.(v)}}
           deleteElement={deleteElement}
           deleteAllElements={deleteAllElements}
+          copyElement={copyElement}
         />
       </div>
 
