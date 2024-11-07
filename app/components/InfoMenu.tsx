@@ -13,6 +13,7 @@ interface InfoMenuProps {
   deleteElement: () => void;
   deleteAllElements: () => void;
   copyElement: () => void;
+  savePage: () => void;
 }
 const InfoMenu: React.FC<InfoProps & InfoMenuProps> = ({
   id,
@@ -20,7 +21,8 @@ const InfoMenu: React.FC<InfoProps & InfoMenuProps> = ({
   setCurrentPage,
   deleteElement,
   deleteAllElements,
-  copyElement
+  copyElement,
+  savePage
 }) => {
   const [currentType, setCurrentType] = useState<string>('');
   const [expanded, setExpanded] = useState<boolean>(true);
@@ -133,6 +135,7 @@ const InfoMenu: React.FC<InfoProps & InfoMenuProps> = ({
           variant="outlined"
           size="small"
           sx={{ height: "30px", fontSize: '12px' }}
+          onClick={() => {savePage?.()}}
         >Save</Button>
       </div>
     </Card>

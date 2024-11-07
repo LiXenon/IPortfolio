@@ -33,6 +33,7 @@ const EditPage = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleteAllOpen, setDeleteAllOpen] = useState(false);
   const { setCurrentFocusedElementId } = useContext(DraggableContext);
+
   console.log(currentPage);
 
   const deleteElement = () => {
@@ -58,9 +59,22 @@ const EditPage = () => {
     setCurrentPage([...currentPage]);
   }
 
-  const pageStyle = currentPage?.map?.((ele) => {
-    if (ele?.type == 'page') return ele.style;
-  })[0];
+  const handleSave = async () => {
+    try {
+      const response = await fetch('/api/build-page', {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        alert('Page export successful. You can check the output in the /out directory.');
+      } else {
+        alert('Failed to export page.');
+      }
+    } catch (error) {
+      console.error('Error during export:', error);
+      alert('An error occurred while exporting the page.');
+    }
+  };
 
   useEffect(() => {
     setCurrentFocusedElementId(focusedElementId);
@@ -83,26 +97,15 @@ const EditPage = () => {
           deleteElement={deleteElement}
           deleteAllElements={deleteAllElements}
           copyElement={copyElement}
+          savePage={handleSave}
         />
       </div>
 
-      <div className={`relative`}
-        style={{ width: `${pageStyle?.width || 1000}px`,
-          height: `${pageStyle?.height || 2000}px`,
-          backgroundColor: pageStyle?.backgroundColor || '#ffffff' }}
-        onClick={(event) => {
-          // Click the empty page to edit page(default info menu)
-
-          // Prevent from event capture phase which may capture child elements' event
-          if (event.target == event.currentTarget) {
-            setFocusedElementId(undefined);
-          }
-        }}>
-        <Page
-          config={currentPage}
-          setCurrentPage={(value: any) => {setCurrentPage?.(value)}}
-          setFocusedElementId={(id: number) => setFocusedElementId(id)}/>
-      </div>
+      <Page
+        config={currentPage}
+        setCurrentPage={(value: any) => {setCurrentPage?.(value)}}
+        setFocusedElementId={(id: number) => setFocusedElementId(id)}
+      />
 
       <ConfirmDialog open={deleteOpen}
         setOpen={(v) => {

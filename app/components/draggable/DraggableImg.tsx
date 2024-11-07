@@ -13,8 +13,30 @@ const DraggableImg: React.FC<draggableProps> = ({
   setFocusedElementId,
   handlePositionChange,
 }) => {
-  const { editing, currentFocusedElementId } = useContext(DraggableContext);
-  const focused: boolean = currentFocusedElementId == id && editing;
+  let editing = false;
+  let currentFocusedElementId;
+  try {
+    editing = useContext(DraggableContext);
+    currentFocusedElementId = useContext(DraggableContext);
+  } catch {
+    console.log('read only');
+  }
+  const focused: boolean = editing && currentFocusedElementId == id;
+  const ImgEle = <img src={src || 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg'}
+    className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
+    style={{ width: '200px', height: '200px', ...style }}
+    onClick={() => {
+      setFocusedElementId(id);
+    }}
+    onError={(e) => {
+      e.target.src = 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg';
+    }}
+  />;
+  if (!editing) {
+    return <div
+      style={{ display: 'inline-block', position: 'absolute', transform: `translate(${x}px, ${y}px)` }}>
+      {ImgEle}</div>
+  }
   return (
     <Draggable
       axis="both" // Restrict dragging to both axes (default)
@@ -25,16 +47,7 @@ const DraggableImg: React.FC<draggableProps> = ({
         handlePositionChange(data.lastX, data.lastY, id)
       }}
     >
-      <img src={src || 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg'}
-        className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
-        style={{ width: '200px', height: '200px', ...style }}
-        onClick={() => {
-          setFocusedElementId(id);
-        }}
-        onError={(e) => {
-          e.target.src = 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg';
-        }}
-      />
+      {ImgEle}
     </Draggable>
   );
 };

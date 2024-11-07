@@ -16,8 +16,37 @@ const DraggableMasonry: React.FC<draggableProps> = ({
   setFocusedElementId,
   handlePositionChange,
 }) => {
-  const { editing, currentFocusedElementId } = useContext(DraggableContext);
-  const focused: boolean = currentFocusedElementId == id && editing;
+  let editing = false;
+  let currentFocusedElementId;
+  try {
+    editing = useContext(DraggableContext);
+    currentFocusedElementId = useContext(DraggableContext);
+  } catch {
+    console.log('read only');
+  }
+  const focused: boolean = editing && currentFocusedElementId == id;
+  const BoxEle = <Box onClick={() => {
+    setFocusedElementId(id);
+  }}
+  className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
+  sx={{ width: 500, height: 450, overflowY: 'scroll', ...style }}>
+    <ImageList variant="masonry" cols={cols || 3} gap={gap || 8}>
+      {srcList?.map?.((src, index) => (
+        <ImageListItem key={`${src}_${index}`}>
+          <img
+            src={src}
+            alt=''
+            loading="lazy"
+          />
+        </ImageListItem>
+      ))}
+    </ImageList>
+  </Box>;
+  if (!editing) {
+    return <div
+      style={{ display: 'inline-block', position: 'absolute', transform: `translate(${x}px, ${y}px)` }}>
+      {BoxEle}</div>
+  }
   return (
     <Draggable
       axis="both" // Restrict dragging to both axes (default)
@@ -28,23 +57,7 @@ const DraggableMasonry: React.FC<draggableProps> = ({
         handlePositionChange(data.lastX, data.lastY, id)
       }}
     >
-      <Box onClick={() => {
-        setFocusedElementId(id);
-      }}
-      className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
-      sx={{ width: 500, height: 450, overflowY: 'scroll', ...style }}>
-        <ImageList variant="masonry" cols={cols || 3} gap={gap || 8}>
-          {srcList?.map?.((src, index) => (
-            <ImageListItem key={`${src}_${index}`}>
-              <img
-                src={src}
-                alt=''
-                loading="lazy"
-              />
-            </ImageListItem>
-          ))}
-        </ImageList>
-      </Box>
+      {BoxEle}
     </Draggable>
   );
 };

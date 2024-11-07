@@ -7,8 +7,8 @@ import DraggableIcon from "./draggable/DraggableIcon";
 import DraggableMasonry from "./draggable/DraggableMasonry";
 interface PageProps {
     config: any,
-    setCurrentPage: (value: any) => void;
-    setFocusedElementId: (id: number) => void;
+    setCurrentPage?: (value: any) => void;
+    setFocusedElementId?: (id: number) => void;
 }
 
 const Page: React.FC<PageProps> = ({ config, setCurrentPage, setFocusedElementId }) => {
@@ -20,6 +20,11 @@ const Page: React.FC<PageProps> = ({ config, setCurrentPage, setFocusedElementId
     icon: DraggableIcon,
     masonry: DraggableMasonry
   }
+
+  const pageStyle = currentPage?.map?.((ele) => {
+    if (ele?.type == 'page') return ele.style;
+  })[0];
+
   const handlePositionChange = (x: number, y: number, id: number) => {
     currentPage?.forEach?.((ele: any) => {
       if (ele?.id == id) {
@@ -27,7 +32,7 @@ const Page: React.FC<PageProps> = ({ config, setCurrentPage, setFocusedElementId
         ele.y = y;
       }
     });
-    setCurrentPage([...currentPage]);
+    setCurrentPage?.([...currentPage]);
   }
 
   const handleValueChange = (val: string, id: number) => {
@@ -36,12 +41,25 @@ const Page: React.FC<PageProps> = ({ config, setCurrentPage, setFocusedElementId
         ele.value = val;
       }
     });
-    setCurrentPage([...currentPage]);
+    setCurrentPage?.([...currentPage]);
   }
 
   return (
 
-    <>
+    <div
+      style={{ width: `${pageStyle?.width || 1000}px`,
+        height: `${pageStyle?.height || 2000}px`,
+        position: 'relative',
+        backgroundColor: pageStyle?.backgroundColor || '#ffffff' }}
+      onClick={(event) => {
+        // Click the empty page to edit page(default info menu)
+
+        // Prevent from event capture phase which may capture child elements' event
+        if (event.target == event.currentTarget) {
+          setFocusedElementId?.(undefined);
+        }
+      }}
+    >
       {currentPage?.map?.((ele: any) => {
         if (ele?.type == 'page') return;
         const Component = typeToElementMap?.[ele?.type];
@@ -62,10 +80,10 @@ const Page: React.FC<PageProps> = ({ config, setCurrentPage, setFocusedElementId
           style={ele?.style}
           src={ele?.src}
           link={ele?.link}
-          setFocusedElementId={(id: number) => {setFocusedElementId(id)}}
+          setFocusedElementId={(id: number) => {setFocusedElementId?.(id)}}
         />
       })}
-    </>
+    </div>
   )
 }
 export default Page

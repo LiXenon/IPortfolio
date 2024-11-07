@@ -15,10 +15,49 @@ const DraggableInput: React.FC<draggableProps> = ({
   setFocusedElementId,
   handlePositionChange,
 }) => {
-  const { editing, currentFocusedElementId } = useContext(DraggableContext);
-  const focused: boolean = currentFocusedElementId == id && editing;
+  let editing = false;
+  let currentFocusedElementId;
+  try {
+    editing = useContext(DraggableContext);
+    currentFocusedElementId = useContext(DraggableContext);
+  } catch {
+    console.log('read only');
+  }
+  const focused: boolean = editing && currentFocusedElementId == id;
   const [currentValue, setCurrentValue] = useState<string>(value || '');
+  const TextFieldEle = <TextField
+    className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
+    value={currentValue}
+    multiline
+    placeholder="Input some text"
+    onClick={() => {setFocusedElementId?.(id)}}
+    onChange={(e) => {
+    // If it is displaying but not editing, make it read only
+      if (!editing) return;
 
+      const v = e.target.value;
+      setValue?.(v);
+      setCurrentValue?.(v);
+    }}
+    onFocus={(e) => {
+    // If it is displaying but not editing, make it read only
+      if (!editing) {
+        e.target.blur();
+      }
+    }}
+    slotProps={{ htmlInput: { style: style } }}
+    sx={{
+      '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+          border: 'none', // Removes the outer border
+        } },
+    }}
+  />
+  if (!editing) {
+    return <div
+      style={{ display: 'inline-block', position: 'absolute', transform: `translate(${x}px, ${y}px)` }}>
+      {TextFieldEle}</div>
+  }
   return (
     <Draggable
       axis="both" // Restrict dragging to both axes (default)
@@ -26,37 +65,10 @@ const DraggableInput: React.FC<draggableProps> = ({
       position={{ x: x || 0, y: y || 0 }}
       // grid={[25, 25]} // Snap to 25px increments
       onStop={(event, data) => {
-        handlePositionChange(data.lastX, data.lastY, id)
+        handlePositionChange?.(data.lastX, data.lastY, id)
       }}
     >
-      <TextField
-        className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
-        value={currentValue}
-        multiline
-        placeholder="Input some text"
-        onClick={() => {setFocusedElementId(id)}}
-        onChange={(e) => {
-          // If it is displaying but not editing, make it read only
-          if (!editing) return;
-
-          const v = e.target.value;
-          setValue(v);
-          setCurrentValue(v);
-        }}
-        onFocus={(e) => {
-          // If it is displaying but not editing, make it read only
-          if (!editing) {
-            e.target.blur();
-          }
-        }}
-        slotProps={{ htmlInput: { style: style } }}
-        sx={{
-          '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-              border: 'none', // Removes the outer border
-            } },
-        }}
-      />
+      {TextFieldEle}
     </Draggable>
   );
 };

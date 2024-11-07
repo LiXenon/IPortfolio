@@ -18,8 +18,33 @@ const DraggableButton: React.FC<draggableProps> = ({
   setFocusedElementId,
   handlePositionChange,
 }) => {
-  const { editing, currentFocusedElementId } = useContext(DraggableContext);
-  const focused: boolean = currentFocusedElementId == id && editing;
+  let editing = false;
+  let currentFocusedElementId;
+  try {
+    editing = useContext(DraggableContext);
+    currentFocusedElementId = useContext(DraggableContext);
+  } catch {
+    console.log('read only');
+  }
+  const focused: boolean = editing && currentFocusedElementId == id;
+  const ButtonEle = <Button
+    className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
+    color={color}
+    variant={variant}
+    size={size}
+    onClick={() => {
+      setFocusedElementId(id);
+      if (!editing && link) {
+        window.location.href = link;
+      }
+    }
+    }
+  >{value || 'button'}</Button>;
+  if (!editing) {
+    return <div
+      style={{ display: 'inline-block', position: 'absolute', transform: `translate(${x}px, ${y}px)` }}>
+      {ButtonEle}</div>
+  }
   return (
     <Draggable
       axis="both" // Restrict dragging to both axes (default)
@@ -30,19 +55,7 @@ const DraggableButton: React.FC<draggableProps> = ({
         handlePositionChange(data.lastX, data.lastY, id)
       }}
     >
-      <Button
-        className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
-        color={color}
-        variant={variant}
-        size={size}
-        onClick={() => {
-          setFocusedElementId(id);
-          if (!editing && link) {
-            window.location.href = link;
-          }
-        }
-        }
-      >{value || 'button'}</Button>
+      {ButtonEle}
     </Draggable>
   );
 };

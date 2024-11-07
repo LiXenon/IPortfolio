@@ -20,8 +20,15 @@ const DraggableIcon: React.FC<draggableProps> = ({
   setFocusedElementId,
   handlePositionChange,
 }) => {
-  const { editing, currentFocusedElementId } = useContext(DraggableContext);
-  const focused: boolean = currentFocusedElementId == id && editing;
+  let editing = false;
+  let currentFocusedElementId;
+  try {
+    editing = useContext(DraggableContext);
+    currentFocusedElementId = useContext(DraggableContext);
+  } catch {
+    console.log('read only');
+  }
+  const focused: boolean = editing && currentFocusedElementId == id;
   const valueToIconMap = {
     facebook: FacebookIcon,
     instagram: InstagramIcon,
@@ -31,7 +38,22 @@ const DraggableIcon: React.FC<draggableProps> = ({
   }
 
   const IconElement = valueToIconMap?.[value] || FacebookIcon;
-
+  const IconEle = <IconElement
+    className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
+    onClick={() => {
+      setFocusedElementId(id);
+      if (!editing && link) {
+      // Open new tab
+        window.open(link);
+      }
+    }}
+    style={{ color: color || 'black', fontSize: size || '24px' }}
+  />;
+  if (!editing) {
+    return <div
+      style={{ display: 'inline-block', position: 'absolute', transform: `translate(${x}px, ${y}px)` }}>
+      {IconEle}</div>
+  }
   return (
     <Draggable
       axis="both" // Restrict dragging to both axes (default)
@@ -42,17 +64,7 @@ const DraggableIcon: React.FC<draggableProps> = ({
         handlePositionChange(data.lastX, data.lastY, id)
       }}
     >
-      <IconElement
-        className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
-        onClick={() => {
-          setFocusedElementId(id);
-          if (!editing && link) {
-            // Open new tab
-            window.open(link);
-          }
-        }}
-        style={{ color: color || 'black', fontSize: size || '24px' }}
-      />
+      {IconEle}
     </Draggable>
   );
 };
