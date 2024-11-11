@@ -2,14 +2,17 @@
 import React, { useContext } from 'react';
 import Draggable from 'react-draggable';
 import { draggableProps } from '../interface/Draggable.d';
+import { Box, ImageList, ImageListItem } from '@mui/material';
 import { DraggableContext } from '@/app/context/DraggableProvider';
 
-const DraggableImg: React.FC<draggableProps> = ({
+const DraggableMasonry: React.FC<draggableProps> = ({
   id,
   x,
   y,
+  srcList,
   style,
-  src,
+  cols,
+  gap,
   setFocusedElementId,
   handlePositionChange,
 }) => {
@@ -22,20 +25,27 @@ const DraggableImg: React.FC<draggableProps> = ({
     console.log('read only');
   }
   const focused: boolean = editing && currentFocusedElementId == id;
-  const ImgEle = <img src={src || 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg'}
-    className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
-    style={{ width: '200px', height: '200px', ...style }}
-    onClick={() => {
-      setFocusedElementId(id);
-    }}
-    onError={(e) => {
-      e.target.src = 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg';
-    }}
-  />;
+  const BoxEle = <Box onClick={() => {
+    setFocusedElementId(id);
+  }}
+  className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
+  sx={{ width: 500, height: 450, overflowY: 'scroll', ...style }}>
+    <ImageList variant="masonry" cols={cols || 3} gap={gap || 8}>
+      {srcList?.map?.((src, index) => (
+        <ImageListItem key={`${src}_${index}`}>
+          <img
+            src={src}
+            alt=''
+            loading="lazy"
+          />
+        </ImageListItem>
+      ))}
+    </ImageList>
+  </Box>;
   if (!editing) {
     return <div
       style={{ display: 'inline-block', position: 'absolute', transform: `translate(${x}px, ${y}px)` }}>
-      {ImgEle}</div>
+      {BoxEle}</div>
   }
   return (
     <Draggable
@@ -47,9 +57,9 @@ const DraggableImg: React.FC<draggableProps> = ({
         handlePositionChange(data.lastX, data.lastY, id)
       }}
     >
-      {ImgEle}
+      {BoxEle}
     </Draggable>
   );
 };
 
-export default DraggableImg;
+export default DraggableMasonry;

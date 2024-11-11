@@ -1,15 +1,22 @@
 "use client"
-import React, { useContext } from 'react';
 import Draggable from 'react-draggable';
 import { draggableProps } from '../interface/Draggable.d';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import XIcon from '@mui/icons-material/X';
+import { useContext } from 'react';
 import { DraggableContext } from '@/app/context/DraggableProvider';
 
-const DraggableImg: React.FC<draggableProps> = ({
+const DraggableIcon: React.FC<draggableProps> = ({
   id,
   x,
   y,
-  style,
-  src,
+  link,
+  value,
+  color,
+  size,
   setFocusedElementId,
   handlePositionChange,
 }) => {
@@ -22,20 +29,30 @@ const DraggableImg: React.FC<draggableProps> = ({
     console.log('read only');
   }
   const focused: boolean = editing && currentFocusedElementId == id;
-  const ImgEle = <img src={src || 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg'}
+  const valueToIconMap = {
+    facebook: FacebookIcon,
+    instagram: InstagramIcon,
+    linkedin: LinkedInIcon,
+    gitHub: GitHubIcon,
+    x: XIcon
+  }
+
+  const IconElement = valueToIconMap?.[value] || FacebookIcon;
+  const IconEle = <IconElement
     className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
-    style={{ width: '200px', height: '200px', ...style }}
     onClick={() => {
       setFocusedElementId(id);
+      if (!editing && link) {
+      // Open new tab
+        window.open(link);
+      }
     }}
-    onError={(e) => {
-      e.target.src = 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg';
-    }}
+    style={{ color: color || 'black', fontSize: size || '24px' }}
   />;
   if (!editing) {
     return <div
       style={{ display: 'inline-block', position: 'absolute', transform: `translate(${x}px, ${y}px)` }}>
-      {ImgEle}</div>
+      {IconEle}</div>
   }
   return (
     <Draggable
@@ -47,9 +64,9 @@ const DraggableImg: React.FC<draggableProps> = ({
         handlePositionChange(data.lastX, data.lastY, id)
       }}
     >
-      {ImgEle}
+      {IconEle}
     </Draggable>
   );
 };
 
-export default DraggableImg;
+export default DraggableIcon;

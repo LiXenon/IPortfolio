@@ -1,54 +1,74 @@
 "use client"
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Draggable from 'react-draggable';
 import { TextField } from '@mui/material';
-import { TextFieldProps } from '@mui/material';
-interface DraggableInputProps {
-  id: number,
-  x?: number,
-  y?: number,
-  inputProps: TextFieldProps,
-  handlePositionChange: (x: number, y: number, id: number) => void;
-}
-
-const DraggableInput: React.FC<DraggableInputProps> = ({
+import { draggableProps } from '../interface/draggable.d';
+import { DraggableContext } from '@/app/context/DraggableProvider';
+import { useContext } from 'react';
+const DraggableInput: React.FC<draggableProps> = ({
   id,
   x,
   y,
-  inputProps,
+  style,
+  value,
+  setValue,
+  setFocusedElementId,
   handlePositionChange,
-  ...props
 }) => {
-  const [currentX, setCurrentX] = useState<number>(x || 350);
-  const [currentY, setCurrentY] = useState<number>(y || 225);
+  let editing = false;
+  let currentFocusedElementId;
+  try {
+    editing = useContext(DraggableContext);
+    currentFocusedElementId = useContext(DraggableContext);
+  } catch {
+    console.log('read only');
+  }
+  const focused: boolean = editing && currentFocusedElementId == id;
+  const [currentValue, setCurrentValue] = useState<string>(value || '');
+  const TextFieldEle = <TextField
+    className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
+    value={currentValue}
+    multiline
+    placeholder="Input some text"
+    onClick={() => {setFocusedElementId?.(id)}}
+    onChange={(e) => {
+    // If it is displaying but not editing, make it read only
+      if (!editing) return;
+
+      const v = e.target.value;
+      setValue?.(v);
+      setCurrentValue?.(v);
+    }}
+    onFocus={(e) => {
+    // If it is displaying but not editing, make it read only
+      if (!editing) {
+        e.target.blur();
+      }
+    }}
+    slotProps={{ htmlInput: { style: style } }}
+    sx={{
+      '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+          border: 'none', // Removes the outer border
+        } },
+    }}
+  />
+  if (!editing) {
+    return <div
+      style={{ display: 'inline-block', position: 'absolute', transform: `translate(${x}px, ${y}px)` }}>
+      {TextFieldEle}</div>
+  }
   return (
     <Draggable
       axis="both" // Restrict dragging to both axes (default)
       bounds="parent" // Prevent dragging outside of parent container
-      defaultPosition={{x:0, y:0}}
-      position={{x: x, y: y-183}}
+      position={{ x: x || 0, y: y || 0 }}
       // grid={[25, 25]} // Snap to 25px increments
-      onStop={(event, data)=>{
-        console.log(event.pageX, event.pageY, data);
-        
-        handlePositionChange(event.pageX-567+94, event.pageY-195+28, id)
+      onStop={(event, data) => {
+        handlePositionChange?.(data.lastX, data.lastY, id)
       }}
     >
-      <div className='inline-block border-2 border-none click:border-dash'>
-        <TextField 
-          multiline
-          placeholder="Input some text"
-          slotProps={{htmlInput: {...inputProps || {}}}}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                border: 'none', // Removes the outer border
-          }},
-          style:{fontSize: '100px'}
-          
-          }}
-        />
-      </div>
+      {TextFieldEle}
     </Draggable>
   );
 };

@@ -1,15 +1,20 @@
 "use client"
-import React, { useContext } from 'react';
+import React from 'react';
 import Draggable from 'react-draggable';
 import { draggableProps } from '../interface/Draggable.d';
+import { Button } from '@mui/material';
+import { useContext } from 'react';
 import { DraggableContext } from '@/app/context/DraggableProvider';
 
-const DraggableImg: React.FC<draggableProps> = ({
+const DraggableButton: React.FC<draggableProps> = ({
   id,
   x,
   y,
-  style,
-  src,
+  link,
+  color,
+  variant,
+  size,
+  value,
   setFocusedElementId,
   handlePositionChange,
 }) => {
@@ -22,20 +27,23 @@ const DraggableImg: React.FC<draggableProps> = ({
     console.log('read only');
   }
   const focused: boolean = editing && currentFocusedElementId == id;
-  const ImgEle = <img src={src || 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg'}
+  const ButtonEle = <Button
     className={`absolute left-0 top-0 ${focused ? 'border-dashed border-2 border-blue-500' : ''}`}
-    style={{ width: '200px', height: '200px', ...style }}
+    color={color}
+    variant={variant}
+    size={size}
     onClick={() => {
       setFocusedElementId(id);
-    }}
-    onError={(e) => {
-      e.target.src = 'https://www.svgrepo.com/show/508699/landscape-placeholder.svg';
-    }}
-  />;
+      if (!editing && link) {
+        window.location.href = link;
+      }
+    }
+    }
+  >{value || 'button'}</Button>;
   if (!editing) {
     return <div
       style={{ display: 'inline-block', position: 'absolute', transform: `translate(${x}px, ${y}px)` }}>
-      {ImgEle}</div>
+      {ButtonEle}</div>
   }
   return (
     <Draggable
@@ -47,9 +55,9 @@ const DraggableImg: React.FC<draggableProps> = ({
         handlePositionChange(data.lastX, data.lastY, id)
       }}
     >
-      {ImgEle}
+      {ButtonEle}
     </Draggable>
   );
 };
 
-export default DraggableImg;
+export default DraggableButton;
