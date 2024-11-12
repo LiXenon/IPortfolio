@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 
 :root {
   --background: #f1f5f9;
   --foreground: #171717;
@@ -24,7 +25,7 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-}
+} */
 
 /* 针对 Chrome 浏览器的滚动条样式 */
 ::-webkit-scrollbar {

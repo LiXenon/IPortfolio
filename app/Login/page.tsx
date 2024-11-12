@@ -1,12 +1,12 @@
 
 "use client";
-import PageBottom from '@/app/component/PageBottom';
+import PageBottom from '@/app/components/PageBottom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import NavBar from '../component/NavBar';
+import NavBar from '../components/NavBar';
 import React from 'react';
 import { TextField } from '@mui/material';
 import { useState } from 'react';

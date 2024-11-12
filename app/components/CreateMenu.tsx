@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Card, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { Button, Card, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import InputIcon from '@mui/icons-material/Input';
 import ImageIcon from '@mui/icons-material/Image';
 import TouchAppIcon from '@mui/icons-material/TouchApp';
@@ -7,6 +7,7 @@ import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import AppsIcon from '@mui/icons-material/Apps';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import HomeIcon from '@mui/icons-material/Home';
 
 interface CreateMenuProps {
     currentPage: any,
@@ -47,7 +48,7 @@ const CreateMenu: React.FC<CreateMenuProps> = ({ currentPage, setCurrentPage, se
         {expanded ? <ArrowForwardIosIcon /> : <ArrowBackIosNewIcon />}
       </div>
       <div
-        className="flex h-[50px] items-center"
+        className="flex h-[50px] items-center justify-around overflow-hidden"
         style={{
           transition: 'opacity 0.5s ease, visibility 0.5s ease',
           visibility: `${expanded ? 'visible' : 'hidden'}`,
@@ -62,6 +63,11 @@ const CreateMenu: React.FC<CreateMenuProps> = ({ currentPage, setCurrentPage, se
         >
           Iportfolio Elements
         </span>
+        <HomeIcon
+          className="hover:cursor-pointer"
+          onClick={() => {
+            window.location.href = "/"
+          }} />
       </div>
       <Divider />
       <List
