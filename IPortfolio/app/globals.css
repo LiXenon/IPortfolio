@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* 自定义滚动条样式 */
+.custom-scrollbar {
+  overflow-y: scroll; /* 允许垂直滚动 */
+  scrollbar-width: thin; /* 为 Firefox 设置滚动条宽度 */
+  scrollbar-color: rgba(92, 94, 233, 0.774) transparent; /* 为 Firefox 设置滚动条颜色 */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px; /* 滚动条宽度 */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(17, 43, 160, 0.856); /* 滚动条颜色 */
+  border-radius: 10px; /* 滚动条圆角 */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: transparent; /* 滚动条轨道颜色 */
+  border-radius: 10px; /* 滚动条轨道圆角 */
+}
