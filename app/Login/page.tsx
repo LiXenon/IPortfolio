@@ -1,4 +1,3 @@
-
 "use client";
 import PageBottom from '@/app/components/PageBottom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -12,7 +11,7 @@ import { TextField } from '@mui/material';
 import { useState } from 'react';
 
 const LoginPage = () => {
-    // define state variables
+  // define state variables
 
   const [email, setEmail] = useState('');
   const [confirmEmail, setConfirmEmail] = useState('');
@@ -20,12 +19,11 @@ const LoginPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '', confirmEmail: '', confirmPassword: '' });
 
-
   // email regular expression
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-   // Validation function for email and password
-   const validateEmail = () => {
+  // Validation function for email and password
+  const validateEmail = () => {
     if (!emailRegex.test(email)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -52,7 +50,6 @@ const LoginPage = () => {
       }));
     }
   };
-
 
   // Confirm email and password validation
   const validateConfirmEmail = () => {
@@ -83,17 +80,14 @@ const LoginPage = () => {
     }
   };
 
-   // Reset error message when input is focused
-   const resetError = (field: any) => {
+  // Reset error message when input is focused
+  const resetError = (field: any) => {
     setErrors((prevErrors) => ({
       ...prevErrors,
       [field]: '', // Clear error for the specific field
     }));
   };
 
-  
-
-  
   // Submit function
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
@@ -102,17 +96,10 @@ const LoginPage = () => {
     }
   };
 
-
-  
-
-
-
-
-
-    return (
-      <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', backgroundColor: '#fff' }}>
-        <Grid item xs={12} sm={8} md={6} lg={4}>
-          {/* <Box
+  return (
+    <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', backgroundColor: '#fff' }}>
+      <Grid item xs={12} sm={8} md={6} lg={4}>
+        {/* <Box
             sx={{
               padding: '40px',
               boxShadow: 3,
@@ -121,169 +108,156 @@ const LoginPage = () => {
             }}
           > */}
 
-          <Box sx={{
-              display: 'flex',
-              flexDirection: 'column', // vertical alignment
-              alignItems: 'center', // horizontal alignment
-              padding: '40px',
-              
-              
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'column', // vertical alignment
+          alignItems: 'center', // horizontal alignment
+          padding: '40px',
+
+        }}
+        >
+
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              position: 'absolute',
+              top: '20px',
+              left: '20px',
+              fontWeight: 'bold',
+              color: '#000',
+              fontSize: '40px'
             }}
           >
-
-            <Typography 
-                    variant="h6" 
-                    component="div" 
-                    sx={{ 
-                    position: 'absolute',  
-                    top: '20px',  
-                    left: '20px',  
-                    fontWeight: 'bold',  
-                    color: '#000',
-                    fontSize: '40px'
-                    }}
-                >
             IPortfolio
-            </Typography>
-            {/* Title */}
-            <Typography variant="h3" component="h1" textAlign="center" fontWeight="bold" marginBottom="40px" color="#666565">
+          </Typography>
+          {/* Title */}
+          <Typography variant="h3" component="h1" textAlign="center" fontWeight="bold" marginBottom="40px" color="#666565">
               Sign Up
-            </Typography>
-  
-            {/* Email Input */}
-            <TextField 
-              label="Email" 
-              variant="standard" 
-              //fullWidth 
-              required 
-              margin="normal"
-              sx={{ width: '500px', '& .MuiInputLabel-root': { 
-                fontSize: '15px', marginLeft:'10px', marginBottom:'px', marginTop:'-10px'  // set the label individually
-                }, }}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              error={!!errors.email} // show error status when there is an error message
-              helperText={errors.email} // show error prompt information
-              onBlur={validateEmail} // Trigger validation on blu
-              onFocus={() => resetError('email')} // Reset error when focused
-              
-            />
-  
-            {/* Confirm Email Input */}
-            <TextField 
-              label="Confirm Email" 
-              variant="standard" 
-              //fullWidth 
-              required 
-              margin="normal" 
-              sx={{ width: '500px', '& .MuiInputLabel-root': { 
-                fontSize: '15px', marginLeft:'10px', marginTop:'-10px'  // set the label individually
-                }, }}
-            
-             value={confirmEmail}
-             onChange={(e) => setConfirmEmail(e.target.value)}
-             onBlur={validateConfirmEmail} // Trigger validation on blur
-             onFocus={() => resetError('confirmEmail')} // Reset error when focused
-             error={!!errors.confirmEmail} // Show error state
-             helperText={errors.confirmEmail} // Show error message
-            
-            />
-  
-            {/* Password Input */}
-            <TextField 
-              label="Set Password" 
-              
-              type="password" 
-              variant="standard" 
-              //fullWidth 
-              required 
-              margin="normal" 
-            
-              sx={{ width: '500px','& .MuiInputLabel-root': { 
-                    fontSize: '15px', marginLeft:'10px', marginTop:'-10px'// set the label individually
-                    }, }}
+          </Typography>
 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onBlur={validatePassword} // Trigger validation on blur
-              error={!!errors.password} 
-              helperText={errors.password}
-              onFocus={() => resetError('password')} // Reset error when focused
-              
-            />
-            
-  
-            {/* Confirm Password Input */}
-            <TextField 
-              label="Confirm Password" 
-              
-              type="password" 
-              variant="standard" 
-              required 
-              margin="normal" 
-              sx={{ width: '500px', '& .MuiInputLabel-root': { 
-                fontSize: '15px', marginLeft:'10px', marginTop:'-10px'  // set the label individually
-                }, }}
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              onBlur={validateConfirmPassword} // Trigger validation on blur
-              onFocus={() => resetError('confirmPassword')} // Reset error when focused
-              error={!!errors.confirmPassword} // Show error state
-              helperText={errors.confirmPassword} // Show error message
-              
-            />
-            
-            
+          {/* Email Input */}
+          <TextField
+            label="Email"
+            variant="standard"
+            // fullWidth
+            required
+            margin="normal"
+            sx={{ width: '500px', '& .MuiInputLabel-root': {
+              fontSize: '15px', marginLeft: '10px', marginBottom: 'px', marginTop: '-10px' // set the label individually
+            }, }}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            error={!!errors.email} // show error status when there is an error message
+            helperText={errors.email} // show error prompt information
+            onBlur={validateEmail} // Trigger validation on blu
+            onFocus={() => resetError('email')} // Reset error when focused
 
-        
-            
-  
-            {/* Register Button */}
-            {/* <Button 
-              variant="contained" 
-              fullWidth 
+          />
+
+          {/* Confirm Email Input */}
+          <TextField
+            label="Confirm Email"
+            variant="standard"
+            // fullWidth
+            required
+            margin="normal"
+            sx={{ width: '500px', '& .MuiInputLabel-root': {
+              fontSize: '15px', marginLeft: '10px', marginTop: '-10px' // set the label individually
+            }, }}
+
+            value={confirmEmail}
+            onChange={(e) => setConfirmEmail(e.target.value)}
+            onBlur={validateConfirmEmail} // Trigger validation on blur
+            onFocus={() => resetError('confirmEmail')} // Reset error when focused
+            error={!!errors.confirmEmail} // Show error state
+            helperText={errors.confirmEmail} // Show error message
+
+          />
+
+          {/* Password Input */}
+          <TextField
+            label="Set Password"
+
+            type="password"
+            variant="standard"
+            // fullWidth
+            required
+            margin="normal"
+
+            sx={{ width: '500px', '& .MuiInputLabel-root': {
+              fontSize: '15px', marginLeft: '10px', marginTop: '-10px'// set the label individually
+            }, }}
+
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onBlur={validatePassword} // Trigger validation on blur
+            error={!!errors.password}
+            helperText={errors.password}
+            onFocus={() => resetError('password')} // Reset error when focused
+
+          />
+
+          {/* Confirm Password Input */}
+          <TextField
+            label="Confirm Password"
+
+            type="password"
+            variant="standard"
+            required
+            margin="normal"
+            sx={{ width: '500px', '& .MuiInputLabel-root': {
+              fontSize: '15px', marginLeft: '10px', marginTop: '-10px' // set the label individually
+            }, }}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            onBlur={validateConfirmPassword} // Trigger validation on blur
+            onFocus={() => resetError('confirmPassword')} // Reset error when focused
+            error={!!errors.confirmPassword} // Show error state
+            helperText={errors.confirmPassword} // Show error message
+
+          />
+
+          {/* Register Button */}
+          {/* <Button
+              variant="contained"
+              fullWidth
               sx={{ marginTop: '20px', padding: '10px 0', backgroundColor: '#000', color: '#fff' }}>
               Sign Up
             </Button> */}
-            <Button 
-                variant="outlined" 
-                
-                sx={{
-                    marginTop: '20px', 
-                    width: '500px',
-                    padding: '10px 0', 
-                    color: '#007BFF',  
-                    borderColor: '#007BFF', 
-                    '&:hover': {
-                    backgroundColor: 'rgba(0, 123, 255, 0.1)', 
-                    borderColor: '#007BFF' 
-                    },
-                    borderRadius: '50px',
-                    fontFamily: 'Arial, serif !important'
+          <Button
+            variant="outlined"
 
-                }}
-                 onClick={handleSubmit} // call the submit function when the button is clicked
-                >
+            sx={{
+              marginTop: '20px',
+              width: '500px',
+              padding: '10px 0',
+              color: '#007BFF',
+              borderColor: '#007BFF',
+              '&:hover': {
+                backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                borderColor: '#007BFF'
+              },
+              borderRadius: '50px',
+              fontFamily: 'Arial, serif !important'
+
+            }}
+            onClick={handleSubmit} // call the submit function when the button is clicked
+          >
                         Sign Up
-            </Button>
+          </Button>
 
-  
-            {/* Already have an account */}
-            <Typography variant="body2" color="textSecondary" textAlign="center" marginTop="20px">
+          {/* Already have an account */}
+          <Typography variant="body2" color="textSecondary" textAlign="center" marginTop="20px">
             Already have an account?  <a href="/login" style={{ color: '#00C4EC', textDecoration: 'none' }}>Login In</a>
-            </Typography>
+          </Typography>
           {/* </Box> */}
-          </Box>
+        </Box>
 
-          
-        </Grid>
       </Grid>
-      
-    );
-  };
-  
-  export default LoginPage;
+    </Grid>
 
+  );
+};
 
-
-
+export default LoginPage;
